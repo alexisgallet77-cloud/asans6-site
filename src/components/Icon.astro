@@ -1,0 +1,39 @@
+---
+/**
+ * Jeu d'icônes maison : grille 24 px, trait 1,5 px, extrémités droites.
+ * Décoratives par défaut (aria-hidden) ; le libellé est porté par l'élément parent.
+ */
+interface Props {
+  name: 'arrow-right' | 'arrow-up-right' | 'sun' | 'moon' | 'menu' | 'close' | 'mail' | 'check';
+  size?: number;
+  class?: string;
+}
+const { name, size = 20, class: className } = Astro.props;
+
+const paths: Record<Props['name'], string> = {
+  'arrow-right': 'M4 12h15M13 6l6 6-6 6',
+  'arrow-up-right': 'M7 17 17 7M8 7h9v9',
+  sun: 'M12 4V2M12 22v-2M4 12H2M22 12h-2M6.3 6.3 4.9 4.9M19.1 19.1l-1.4-1.4M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z',
+  moon: 'M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z',
+  menu: 'M3 7h18M3 12h18M3 17h18',
+  close: 'M5 5l14 14M19 5 5 19',
+  mail: 'M3 6h18v12H3zM3 6l9 7 9-7',
+  check: 'M4 12.5 9.5 18 20 6',
+};
+---
+
+<svg
+  class={className}
+  width={size}
+  height={size}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.5"
+  stroke-linecap="square"
+  stroke-linejoin="miter"
+  aria-hidden="true"
+  focusable="false"
+>
+  <path d={paths[name]}></path>
+</svg>

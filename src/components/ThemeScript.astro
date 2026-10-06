@@ -1,0 +1,17 @@
+---
+/**
+ * Fixe le thème avant le premier rendu (évite le flash) :
+ * choix mémorisé, sinon préférence du système.
+ */
+---
+
+<script is:inline>
+  (function () {
+    var stored = null;
+    try {
+      stored = localStorage.getItem('theme');
+    } catch (e) {}
+    var system = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    document.documentElement.dataset.theme = stored === 'dark' || stored === 'light' ? stored : system;
+  })();
+</script>

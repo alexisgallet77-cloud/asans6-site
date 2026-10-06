@@ -1,0 +1,182 @@
+---
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+import { href, stripBase } from '@/lib/url';
+import { useTranslations } from '@/i18n/ui';
+
+const t = useTranslations();
+const current = stripBase(Astro.url.pathname);
+const links = [
+  { path: '/produits', label: t('nav.products') },
+  { path: '/a-propos', label: t('nav.about') },
+  { path: '/contact', label: t('nav.contact') },
+];
+const isActive = (path: string) => current === `${path}/` || current.startsWith(`${path}/`);
+---
+
+<header class="sticky top-0 z-40 border-b border-line bg-bg" data-header>
+  <div class="container-page flex h-16 items-center justify-between gap-6 md:h-20">
+    <a href={href('/')} class="-m-1 rounded-sm p-1" aria-label={`Asans6 — ${t('nav.home')}`}>
+      <Logo size={32} />
+    </a>
+
+    <nav aria-label={t('nav.label')} class="flex items-center gap-1 md:gap-2">
+      <ul class="hidden items-center gap-1 md:flex" role="list">
+        {
+          links.map((l) => (
+            <li>
+              <a
+                href={href(l.path)}
+                aria-current={isActive(l.path) ? 'page' : undefined}
+                class="nav-link relative block px-3 py-2 text-[0.9375rem] font-medium text-ink"
+              >
+                {l.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+
+      <button
+        type="button"
+        class="grid size-11 place-items-center rounded-sm text-ink transition-colors hover:bg-surface"
+        data-theme-toggle
+        aria-label={t('theme.toDark')}
+        data-label-light={t('theme.toLight')}
+        data-label-dark={t('theme.toDark')}
+      >
+        <Icon name="moon" class="theme-icon-moon" />
+        <Icon name="sun" class="theme-icon-sun" />
+      </button>
+
+      <button
+        type="button"
+        class="grid size-11 place-items-center rounded-sm text-ink transition-colors hover:bg-surface md:hidden"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        data-menu-toggle
+        data-label-open={t('nav.menu')}
+        data-label-close={t('nav.close')}
+        aria-label={t('nav.menu')}
+      >
+        <Icon name="menu" class="menu-icon-open" size={22} />
+        <Icon name="close" class="menu-icon-close" size={22} />
+      </button>
+    </nav>
+  </div>
+
+  <div id="mobile-menu" class="mobile-menu border-t border-line bg-bg md:hidden" hidden>
+    <ul class="container-page py-4" role="list">
+      {
+        links.map((l, i) => (
+          <li class="border-b border-line last:border-b-0">
+            <a
+              href={href(l.path)}
+              aria-current={isActive(l.path) ? 'page' : undefined}
+              class="flex items-baseline gap-4 py-4 font-display text-2xl font-semibold text-ink aria-[current=page]:text-brand"
+            >
+              <span class="label w-6">{String(i + 1).padStart(2, '0')}</span>
+              {l.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</header>
+
+<style>
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: 0.25rem;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 200ms var(--ease-out);
+  }
+  .nav-link:hover::after {
+    transform: scaleX(1);
+  }
+  .nav-link[aria-current='page'] {
+    color: var(--brand);
+  }
+  .nav-link[aria-current='page']::after {
+    transform: scaleX(1);
+    height: 2px;
+  }
+
+  /* Les icônes sont rendues par Icon.astro : sélecteurs globaux. */
+  :global([data-theme='dark'] .theme-icon-moon),
+  :global(:root:not([data-theme='dark']) .theme-icon-sun) {
+    display: none;
+  }
+
+  :global(.menu-icon-close) {
+    display: none;
+  }
+  :global([aria-expanded='true'] .menu-icon-open) {
+    display: none;
+  }
+  :global([aria-expanded='true'] .menu-icon-close) {
+    display: block;
+  }
+
+  .mobile-menu:not([hidden]) {
+    animation: menu-in 200ms var(--ease-out);
+  }
+  @keyframes menu-in {
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+  }
+</style>
+
+<script>
+  // Bascule de thème : mémorise le choix, met à jour le libellé accessible.
+  const toggle = document.querySelector<HTMLButtonElement>('[data-theme-toggle]');
+  const root = document.documentElement;
+  const syncLabel = () => {
+    if (!toggle) return;
+    const dark = root.dataset.theme === 'dark';
+    toggle.setAttribute('aria-label', (dark ? toggle.dataset.labelLight : toggle.dataset.labelDark) ?? '');
+  };
+  syncLabel();
+  toggle?.addEventListener('click', () => {
+    const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+    root.dataset.theme = next;
+    try {
+      localStorage.setItem('theme', next);
+    } catch {
+      /* stockage indisponible : le choix vaut pour la page courante */
+    }
+    syncLabel();
+  });
+
+  // Menu mobile : ouverture/fermeture, Échap, clic hors menu, retour du focus.
+  const btn = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+  const menu = document.getElementById('mobile-menu');
+  const setOpen = (open: boolean, restoreFocus = false) => {
+    if (!btn || !menu) return;
+    btn.setAttribute('aria-expanded', String(open));
+    btn.setAttribute('aria-label', (open ? btn.dataset.labelClose : btn.dataset.labelOpen) ?? '');
+    menu.hidden = !open;
+    if (open) menu.querySelector<HTMLAnchorElement>('a')?.focus();
+    else if (restoreFocus) btn.focus();
+  };
+  btn?.addEventListener('click', () => setOpen(btn.getAttribute('aria-expanded') !== 'true'));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && btn?.getAttribute('aria-expanded') === 'true') setOpen(false, true);
+  });
+  document.addEventListener('click', (e) => {
+    const header = document.querySelector('[data-header]');
+    if (btn?.getAttribute('aria-expanded') === 'true' && header && !header.contains(e.target as Node)) setOpen(false);
+  });
+  window.matchMedia('(min-width: 48rem)').addEventListener('change', (e) => {
+    if (e.matches) setOpen(false);
+  });
+</script>

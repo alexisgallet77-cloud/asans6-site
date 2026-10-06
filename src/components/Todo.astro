@@ -1,0 +1,10 @@
+---
+/** Emplacement de contenu manquant, volontairement visible : « [À FOURNIR : …] ». */
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+const hasDetail = Astro.slots.has('default');
+---
+
+<span class:list={['todo', className]}>[À FOURNIR{hasDetail && ' : '}<slot />]</span>

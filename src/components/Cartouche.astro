@@ -1,0 +1,35 @@
+---
+/**
+ * Élément signature du site : le cartouche, bloc d'identification d'un plan technique.
+ * Utilisé pour la fiche société (accueil) et les fiches techniques produit.
+ */
+interface Row {
+  label: string;
+  value: string;
+}
+interface Props {
+  title: string;
+  reference?: string;
+  rows: Row[];
+  class?: string;
+}
+const { title, reference, rows, class: className } = Astro.props;
+---
+
+<aside class:list={['border border-line-strong bg-surface', className]} aria-label={title}>
+  <div class="flex items-center justify-between gap-4 border-b border-line-strong px-5 py-3">
+    <p class="label text-ink">{title}</p>
+    {reference && <p class="label">{reference}</p>}
+  </div>
+  <dl>
+    {
+      rows.map((r) => (
+        <div class="grid grid-cols-[minmax(7.5rem,40%)_1fr] border-b border-line last:border-b-0">
+          <dt class="label border-r border-line px-5 py-3.5 leading-snug">{r.label}</dt>
+          <dd class="px-5 py-3 text-[0.9375rem] leading-snug text-ink">{r.value}</dd>
+        </div>
+      ))
+    }
+  </dl>
+  <slot />
+</aside>

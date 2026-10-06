@@ -1,0 +1,47 @@
+---
+/**
+ * Logo horizontal composé à partir du logo d'origine (pictogramme + mot),
+ * en version claire et sombre. Fichiers générés par `npm run logo`.
+ */
+import { Image } from 'astro:assets';
+import markLight from '@/assets/brand/mark-light.png';
+import markDark from '@/assets/brand/mark-dark.png';
+import wordLight from '@/assets/brand/word-light.png';
+import wordDark from '@/assets/brand/word-dark.png';
+
+interface Props {
+  /** Hauteur du pictogramme en px. */
+  size?: number;
+  class?: string;
+}
+const { size = 36, class: className } = Astro.props;
+const markW = Math.round((size * markLight.width) / markLight.height);
+const wordH = Math.round(size * 0.52);
+const wordW = Math.round((wordH * wordLight.width) / wordLight.height);
+const variants = [
+  { cls: 'only-light', mark: markLight, word: wordLight },
+  { cls: 'only-dark', mark: markDark, word: wordDark },
+];
+---
+
+<span class:list={['inline-flex', className]}>
+  {
+    variants.map((v) => (
+      <span class={v.cls}>
+        <span class="flex items-end gap-2.5">
+          <Image src={v.mark} alt="" width={markW} height={size} densities={[1, 2]} loading="eager" />
+          <Image
+            src={v.word}
+            alt=""
+            width={wordW}
+            height={wordH}
+            densities={[1, 2]}
+            loading="eager"
+            class="mb-px"
+          />
+        </span>
+      </span>
+    ))
+  }
+  <span class="sr-only">Asans6</span>
+</span>

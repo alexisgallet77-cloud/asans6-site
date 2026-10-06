@@ -1,0 +1,365 @@
+/* Polices auto-hébergées (sous-ensemble latin uniquement, font-display: swap). */
+@import '@fontsource-variable/schibsted-grotesk/wght.css';
+@import '@fontsource/ibm-plex-sans/latin-400.css';
+@import '@fontsource/ibm-plex-sans/latin-400-italic.css';
+@import '@fontsource/ibm-plex-sans/latin-500.css';
+@import '@fontsource/ibm-plex-sans/latin-600.css';
+@import '@fontsource/ibm-plex-mono/latin-400.css';
+@import '@fontsource/ibm-plex-mono/latin-500.css';
+
+@import 'tailwindcss';
+
+/* Variante `dark:` pilotée par l'attribut data-theme (voir ThemeScript). */
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+/* ------------------------------------------------------------------
+   Design tokens — valeurs uniques, documentées dans DESIGN.md
+   ------------------------------------------------------------------ */
+:root {
+  color-scheme: light;
+  --bg: #f4f5f7;
+  --surface: #ffffff;
+  --ink: #0a1628;
+  --muted: #4b5568;
+  --brand: #01449f;
+  --brand-hover: #013680;
+  --on-brand: #ffffff;
+  --accent: #0476f2;
+  --line: #d3d8e0;
+  --line-strong: #a9b2c0;
+  /* Bandeau d'appel : bleu roi du logo dans les deux thèmes */
+  --band: #01449f;
+  --on-band: #ffffff;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #07101d;
+  --surface: #0d1828;
+  --ink: #e6edf8;
+  --muted: #9aa7bb;
+  --brand: #7fb0ff;
+  --brand-hover: #a6c8ff;
+  --on-brand: #07101d;
+  --accent: #4a96ff;
+  --line: #1f2d43;
+  --line-strong: #364a68;
+}
+
+/* Sans JavaScript : on suit la préférence du système. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    color-scheme: dark;
+    --bg: #07101d;
+    --surface: #0d1828;
+    --ink: #e6edf8;
+    --muted: #9aa7bb;
+    --brand: #7fb0ff;
+    --brand-hover: #a6c8ff;
+    --on-brand: #07101d;
+    --accent: #4a96ff;
+    --line: #1f2d43;
+    --line-strong: #364a68;
+  }
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-brand: var(--brand);
+  --color-brand-hover: var(--brand-hover);
+  --color-on-brand: var(--on-brand);
+  --color-accent: var(--accent);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-band: var(--band);
+  --color-on-band: var(--on-band);
+}
+
+@theme {
+  --font-display: 'Schibsted Grotesk Variable', 'Arial Narrow', Arial, sans-serif;
+  --font-sans: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, Consolas, monospace;
+
+  /* Échelle typographique fluide */
+  --text-display: clamp(2.6rem, 1.6rem + 4.6vw, 5.25rem);
+  --text-display--line-height: 1.02;
+  --text-display--letter-spacing: -0.03em;
+  --text-h2: clamp(1.9rem, 1.45rem + 2vw, 3rem);
+  --text-h2--line-height: 1.08;
+  --text-h2--letter-spacing: -0.02em;
+  --text-h3: clamp(1.25rem, 1.15rem + 0.45vw, 1.5rem);
+  --text-h3--line-height: 1.25;
+  --text-h3--letter-spacing: -0.01em;
+  --text-lede: clamp(1.15rem, 1.07rem + 0.35vw, 1.35rem);
+  --text-lede--line-height: 1.5;
+  --text-body: 1.0625rem;
+  --text-body--line-height: 1.65;
+  --text-label: 0.75rem;
+  --text-label--line-height: 1.4;
+  --text-label--letter-spacing: 0.08em;
+
+  --container-page: 76rem;
+  --container-prose: 68ch;
+  --radius-sm: 2px;
+  --radius-md: 4px;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --default-transition-duration: 200ms;
+}
+
+/* ------------------------------------------------------------------
+   Base
+   ------------------------------------------------------------------ */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    scroll-padding-top: 6rem;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    font-feature-settings: 'kern', 'liga';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background-color: var(--brand);
+    color: var(--on-brand);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--brand);
+    outline-offset: 3px;
+    border-radius: var(--radius-sm);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* ------------------------------------------------------------------
+   Composants
+   ------------------------------------------------------------------ */
+@layer components {
+  .container-page {
+    width: 100%;
+    max-width: var(--container-page);
+    margin-inline: auto;
+    padding-inline: 1rem;
+    @media (min-width: 40rem) {
+      padding-inline: 2rem;
+    }
+    @media (min-width: 80rem) {
+      padding-inline: 2.5rem;
+    }
+  }
+
+  .section-y {
+    padding-block: clamp(4rem, 2.5rem + 6vw, 8rem);
+  }
+
+  /* Étiquette technique en chasse fixe */
+  .label {
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    line-height: var(--text-label--line-height);
+    letter-spacing: var(--text-label--letter-spacing);
+    font-weight: 500;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* Boutons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-height: 3rem;
+    padding: 0.75rem 1.25rem;
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    font-weight: 500;
+    line-height: 1.2;
+    text-decoration: none;
+    transition:
+      background-color 200ms var(--ease-out),
+      border-color 200ms var(--ease-out),
+      color 200ms var(--ease-out);
+  }
+  .btn .btn-arrow {
+    transition: translate 200ms var(--ease-out);
+  }
+  .btn:hover .btn-arrow {
+    translate: 3px 0;
+  }
+  .btn-primary {
+    background-color: var(--brand);
+    color: var(--on-brand);
+  }
+  .btn-primary:hover {
+    background-color: var(--brand-hover);
+  }
+  .btn-primary:active {
+    background-color: var(--ink);
+  }
+  .btn-secondary {
+    border-color: var(--line-strong);
+    color: var(--ink);
+  }
+  .btn-secondary:hover {
+    border-color: var(--ink);
+  }
+
+  /* Lien de texte */
+  .link {
+    color: var(--brand);
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.22em;
+    text-decoration-color: color-mix(in srgb, var(--brand) 45%, transparent);
+    transition:
+      text-decoration-color 150ms var(--ease-out),
+      text-decoration-thickness 150ms var(--ease-out);
+  }
+  .link:hover {
+    text-decoration-color: var(--brand);
+    text-decoration-thickness: 2px;
+  }
+
+  /* Emplacement de contenu manquant — volontairement visible */
+  .todo {
+    display: inline-block;
+    padding: 0 0.4em;
+    border: 1px dashed var(--line-strong);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-mono);
+    font-size: 0.8em;
+    letter-spacing: 0.02em;
+    color: var(--muted);
+    white-space: normal;
+  }
+
+  /* Texte long (pages légales) */
+  .prose-doc {
+    max-width: var(--container-prose);
+  }
+  .prose-doc h2 {
+    font-size: var(--text-h3);
+    line-height: var(--text-h3--line-height);
+    font-weight: 650;
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+  }
+  .prose-doc h3 {
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    font-weight: 600;
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
+  }
+  .prose-doc p,
+  .prose-doc ul,
+  .prose-doc dl {
+    margin-bottom: 1rem;
+  }
+  .prose-doc ul {
+    padding-left: 1.25rem;
+    list-style: square;
+  }
+  .prose-doc li {
+    margin-bottom: 0.4rem;
+    padding-left: 0.25rem;
+  }
+  .prose-doc li::marker {
+    color: var(--muted);
+  }
+  .prose-doc a {
+    color: var(--brand);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.22em;
+  }
+  .prose-doc a:hover {
+    text-decoration-thickness: 2px;
+  }
+  .prose-doc strong {
+    font-weight: 600;
+  }
+
+  /* Champs de formulaire */
+  .field {
+    width: 100%;
+    min-height: 3rem;
+    padding: 0.75rem 0.875rem;
+    background-color: var(--surface);
+    color: var(--ink);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-sm);
+    font: inherit;
+    transition: border-color 150ms var(--ease-out);
+  }
+  .field:hover {
+    border-color: var(--muted);
+  }
+  .field:focus-visible {
+    outline: 2px solid var(--brand);
+    outline-offset: 0;
+    border-color: var(--brand);
+  }
+  .field::placeholder {
+    color: var(--muted);
+    opacity: 0.8;
+  }
+}
+
+/* Affichage conditionnel selon le thème (logo clair / sombre) */
+@utility only-light {
+  [data-theme='dark'] & {
+    display: none;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme]) & {
+      display: none;
+    }
+  }
+}
+@utility only-dark {
+  display: none;
+  [data-theme='dark'] & {
+    display: block;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme]) & {
+      display: block;
+    }
+  }
+}

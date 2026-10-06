@@ -1,0 +1,46 @@
+---
+/** Bandeau d'appel pleine largeur (bleu roi du logo dans les deux thèmes). */
+import Icon from './Icon.astro';
+
+interface Props {
+  number?: string;
+  label?: string;
+  title: string;
+  text: string;
+  button: string;
+  href: string;
+}
+const { number, label = 'Contact', title, text, button, href } = Astro.props;
+const id = `cta-${(number ?? 'x').replace(/\W/g, '')}`;
+---
+
+<section class="bg-band text-on-band" aria-labelledby={id}>
+  <div class="container-page grid gap-10 py-16 md:grid-cols-12 md:py-24">
+    <p class="label flex items-center gap-3 self-start text-on-band/75 md:col-span-3 md:pt-3">
+      {number && <span>§ {number}</span>}
+      <span aria-hidden="true" class="h-px w-6 bg-on-band/40"></span>
+      <span>{label}</span>
+    </p>
+    <div class="md:col-span-9">
+      <h2 id={id} class="max-w-[22ch] text-h2 font-[650]">{title}</h2>
+      <p class="mt-6 max-w-[56ch] text-lede text-on-band/85">{text}</p>
+      <a href={href} class="btn btn-inverse mt-10">
+        {button}
+        <Icon name="arrow-right" size={18} class="btn-arrow" />
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .btn-inverse {
+    background-color: var(--on-band);
+    color: var(--band);
+  }
+  .btn-inverse:hover {
+    background-color: color-mix(in srgb, var(--on-band) 88%, var(--band));
+  }
+  .btn-inverse:focus-visible {
+    outline-color: var(--on-band);
+  }
+</style>
