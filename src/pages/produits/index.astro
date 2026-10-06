@@ -1,0 +1,68 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '@/layouts/Base.astro';
+import Cartouche from '@/components/Cartouche.astro';
+import CtaBand from '@/components/CtaBand.astro';
+import StatusTag from '@/components/StatusTag.astro';
+import Button from '@/components/Button.astro';
+import { href } from '@/lib/url';
+
+const products = (await getCollection('products')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<Base
+  title="Produits"
+  description="Les produits logiciels d’Asans6 : Factually, la vérification des faits assistée par IA, et Tixa, l’application des chauffeurs de taxi."
+  sheet="02 / 08"
+>
+  <section class="container-page pt-12 pb-12 md:pt-20 md:pb-16" aria-labelledby="titre">
+    <p class="label">Produits</p>
+    <div class="mt-6 grid gap-8 lg:grid-cols-12">
+      <h1 id="titre" class="text-display font-bold lg:col-span-7">Ce que nous construisons.</h1>
+      <p class="max-w-[48ch] self-end text-lede text-muted lg:col-span-5">
+        Chaque produit répond à un problème précis, pour un public précis. Les voici, du plus avancé au plus récent.
+      </p>
+    </div>
+  </section>
+
+  <div class="container-page pb-16 md:pb-24">
+    {
+      products.map((p, i) => (
+        <article
+          class="grid gap-10 border-t-2 border-ink py-12 md:py-16 lg:grid-cols-12 lg:gap-8"
+          aria-labelledby={`p-${p.id}`}
+        >
+          <div class="lg:col-span-7">
+            <p class="label text-brand">{String(i + 1).padStart(2, '0')}</p>
+            <h2 id={`p-${p.id}`} class="mt-4 font-display text-[clamp(2.5rem,1.8rem+3vw,4.5rem)] leading-none font-bold tracking-[-0.03em]">
+              {p.data.name}
+            </h2>
+            <StatusTag status={p.data.status} class="mt-5" />
+            <p class="mt-8 max-w-[30ch] font-display text-h3 font-semibold">{p.data.tagline}</p>
+            <p class="mt-4 max-w-[56ch] text-muted">{p.data.summary}</p>
+            <Button href={href(`/produits/${p.id}`)} class="mt-8" variant={i === 0 ? 'primary' : 'secondary'}>
+              Découvrir {p.data.name}
+            </Button>
+          </div>
+          <div class="lg:col-span-5">
+            <Cartouche
+              title="Fiche technique"
+              reference={`${p.data.name.slice(0, 3).toUpperCase()}-${String(p.data.order).padStart(2, '0')}`}
+              rows={p.data.spec}
+            />
+          </div>
+        </article>
+      ))
+    }
+    <p class="border-t border-line pt-6 text-[0.9375rem] text-muted">
+      D’autres produits suivront. Chacun aura sa page ici.
+    </p>
+  </div>
+
+  <CtaBand
+    title="Un usage, une idée, un partenariat ?"
+    text="Si l’un de nos produits pourrait servir dans votre organisation, ou si vous voyez un problème que nous devrions résoudre, écrivez-nous."
+    button="Nous écrire"
+    href={href('/contact')}
+  />
+</Base>
