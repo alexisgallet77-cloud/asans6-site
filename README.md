@@ -23,6 +23,7 @@ npm run preview   # sert dist/
 | Textes des pages | `src/pages/*.astro` |
 | Fondateurs | tableau `founders` en haut de `src/pages/a-propos.astro` |
 | Couleurs, polices, espacements | `src/styles/global.css` |
+| Référencement Google (actuellement désactivé) | `indexable` dans `src/config/site.ts` : passer à `true` au lancement |
 
 Écrivez les textes normalement : les espaces insécables avant `: ; ! ?` et l'apostrophe ’ sont ajoutées automatiquement (`src/middleware.ts`).
 

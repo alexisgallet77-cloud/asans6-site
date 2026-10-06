@@ -39,7 +39,8 @@ const ogImage = new URL(`${href('/')}og-default.png`, Astro.site);
     </script>
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
-    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
+    {(noindex || !site.indexable) && <meta name="robots" content="noindex" />}
+    {!noindex && <link rel="canonical" href={canonical} />}
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={site.name} />
     <meta property="og:locale" content="fr_FR" />

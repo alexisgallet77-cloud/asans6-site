@@ -10,8 +10,11 @@ export const site = {
   description:
     'Asans6 est une société fondée par trois ingénieurs. Elle conçoit et développe ses propres logiciels, dont Factually, un outil de vérification des faits assisté par IA.',
   locale: 'fr_FR',
-  /** Révision affichée dans le cartouche du pied de page (AAAA.MM). */
-  revision: '2026.10',
+  /**
+   * Indexation par les moteurs de recherche. `false` tant que le site n'est pas lancé
+   * (ajoute <meta name="robots" content="noindex"> sur toutes les pages). Passer à `true` au lancement.
+   */
+  indexable: false,
 
   contact: {
     email: null as string | null,

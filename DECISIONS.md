@@ -70,6 +70,8 @@ Aucune preuve sociale n'a été inventée : pas de chiffres, de logos clients, d
 
 ## Points de vigilance
 
+- **Au lancement**, passer `indexable` à `true` dans `src/config/site.ts` : le site est pour l’instant marqué `noindex` pour que les moteurs de recherche ne référencent pas une version incomplète.
+
 - **Mettre Node à jour (22 LTS)** puis migrer vers Astro 7. `npm audit` signale encore deux alertes, corrigées seulement dans Astro ≥ 7.2.8 :
   - la première concerne la protection d'accès par chemin côté serveur, que ce site statique n'utilise pas ;
   - la seconde concerne le serveur de développement esbuild sous Windows, en local uniquement.
