@@ -15,13 +15,13 @@ const id = `cta-${(number ?? 'x').replace(/\W/g, '')}`;
 ---
 
 <section class="bg-band text-on-band" aria-labelledby={id}>
-  <div class="container-page grid gap-10 py-16 md:grid-cols-12 md:py-24">
-    <p class="label flex items-center gap-3 self-start text-on-band/75 md:col-span-3 md:pt-3">
+  <div class="container-page grid gap-10 py-16 lg:grid-cols-12 md:py-24">
+    <p class="label flex items-center gap-3 self-start text-on-band/75 lg:col-span-3 lg:pt-3">
       {number && <span>§ {number}</span>}
       {number && <span aria-hidden="true" class="h-px w-6 bg-on-band/40" />}
       <span>{label}</span>
     </p>
-    <div class="md:col-span-9">
+    <div class="lg:col-span-9">
       <h2 id={id} class="max-w-[22ch] text-h2 font-[650]">{title}</h2>
       <p class="mt-6 max-w-[56ch] text-lede text-on-band/85">{text}</p>
       <a href={href} class="btn btn-inverse mt-10">

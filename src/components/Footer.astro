@@ -30,8 +30,8 @@ const legal = [
 
 <footer class="mt-auto border-t border-line">
   <div class="container-page py-12 md:py-16">
-    <div class="grid border border-line-strong md:grid-cols-12">
-      <div class="border-b border-line-strong p-6 md:col-span-5 md:border-r md:border-b-0 md:p-8">
+    <div class="grid border border-line-strong lg:grid-cols-12">
+      <div class="border-b border-line-strong p-6 lg:col-span-5 lg:border-r lg:border-b-0 md:p-8">
         <Logo size={30} />
         <p class="mt-5 max-w-[34ch] text-[0.9375rem] text-muted">
           {site.tagline}. Nous concevons, développons et maintenons nos propres produits.
@@ -40,7 +40,7 @@ const legal = [
 
       <nav
         aria-label="Plan du site"
-        class="border-b border-line-strong p-6 md:col-span-4 md:border-r md:border-b-0 md:p-8"
+        class="border-b border-line-strong p-6 lg:col-span-4 lg:border-r lg:border-b-0 md:p-8"
       >
         <p class="label mb-4">Plan du site</p>
         <ul class="grid grid-cols-2 gap-x-6 gap-y-2 text-[0.9375rem]" role="list">
@@ -56,7 +56,7 @@ const legal = [
         </ul>
       </nav>
 
-      <div class="p-6 md:col-span-3 md:p-8">
+      <div class="p-6 lg:col-span-3 md:p-8">
         <p class="label mb-4">Contact</p>
         <p class="text-[0.9375rem]">
           {site.contact.email ? <a class="link" href={`mailto:${site.contact.email}`}>{site.contact.email}</a> : <Todo>e-mail</Todo>}

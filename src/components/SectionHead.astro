@@ -12,13 +12,13 @@ interface Props {
 const { number, label, id, class: className } = Astro.props;
 ---
 
-<div class:list={['grid gap-4 md:grid-cols-12 md:gap-8', className]}>
-  <p class="label flex items-center gap-3 self-start md:col-span-3 md:pt-3">
+<div class:list={['grid gap-4 lg:grid-cols-12 lg:gap-8', className]}>
+  <p class="label flex items-center gap-3 self-start lg:col-span-3 lg:pt-3">
     <span class="text-brand">§ {number}</span>
     <span aria-hidden="true" class="h-px w-6 bg-line-strong"></span>
     <span>{label}</span>
   </p>
-  <h2 id={id} class="text-h2 font-[650] md:col-span-9">
+  <h2 id={id} class="text-h2 font-[650] lg:col-span-9">
     <slot />
   </h2>
 </div>
