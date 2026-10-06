@@ -44,7 +44,7 @@ for (const theme of THEMES) {
       }));
       const name = `${OUT}/${theme}-${width}-${path.replace(/\//g, '_').replace(/^_|_$/g, '') || 'accueil'}.png`;
       await page.screenshot({ path: name, fullPage: true });
-      const issues = [...log];
+      const issues = path.includes('page-inexistante') ? log.filter((l) => !l.includes('404 (Not Found)')) : [...log];
       if (info.overflow > 0) issues.push(`débordement horizontal de ${info.overflow}px`);
       if (info.h1 !== 1) issues.push(`${info.h1} h1`);
       if (issues.length) problems.push(`${theme} ${width}px ${path}\n  - ${issues.join('\n  - ')}`);

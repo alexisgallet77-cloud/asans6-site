@@ -1,0 +1,173 @@
+---
+import Base from '@/layouts/Base.astro';
+import Cartouche from '@/components/Cartouche.astro';
+import Icon from '@/components/Icon.astro';
+import { site } from '@/config/site';
+import { href } from '@/lib/url';
+
+const { email, phone, address, linkedin } = site.contact;
+const subjects = [
+  { value: 'factually', label: 'Démonstration de Factually' },
+  { value: 'tixa', label: 'Tixa : être tenu informé' },
+  { value: 'partenariat', label: 'Partenariat' },
+  { value: 'presse', label: 'Presse' },
+  { value: 'autre', label: 'Autre demande' },
+];
+---
+
+<Base
+  title="Contact"
+  description="Contacter Asans6 : demande de démonstration de Factually, partenariat, presse ou toute autre question. Formulaire et coordonnées."
+  sheet="06 / 08"
+>
+  <section class="container-page pt-12 pb-10 md:pt-20 md:pb-14" aria-labelledby="titre">
+    <p class="label">Contact</p>
+    <div class="mt-6 grid gap-8 lg:grid-cols-12">
+      <h1 id="titre" class="text-display font-bold lg:col-span-7">Nous écrire.</h1>
+      <p class="max-w-[46ch] self-end text-lede text-muted lg:col-span-5">
+        Une démonstration, un partenariat, une question de presse ? Quelques lignes suffisent pour commencer.
+      </p>
+    </div>
+  </section>
+
+  <section class="border-t border-line" aria-label="Formulaire et coordonnées">
+    <div class="container-page grid gap-14 py-12 md:py-16 lg:grid-cols-12 lg:gap-8">
+      <form
+        class="contact-form grid gap-6 lg:col-span-7"
+        method="POST"
+        action={site.formEndpoint ?? undefined}
+        data-configured={site.formEndpoint ? 'true' : 'false'}
+        aria-describedby="form-note"
+      >
+        <p id="form-note" class="text-[0.9375rem] text-muted">
+          Tous les champs sont obligatoires, sauf mention contraire.
+        </p>
+
+        <div class="grid gap-6 sm:grid-cols-2">
+          <div>
+            <label for="nom" class="mb-2 block font-medium">Nom</label>
+            <input id="nom" name="nom" type="text" autocomplete="name" required class="field" />
+          </div>
+          <div>
+            <label for="email" class="mb-2 block font-medium">E-mail</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              autocomplete="email"
+              required
+              class="field"
+              aria-describedby="email-aide"
+            />
+            <p id="email-aide" class="mt-2 text-[0.875rem] text-muted">Pour vous répondre, rien d’autre.</p>
+          </div>
+        </div>
+
+        <div>
+          <label for="organisation" class="mb-2 block font-medium">
+            Organisation <span class="font-normal text-muted">(facultatif)</span>
+          </label>
+          <input id="organisation" name="organisation" type="text" autocomplete="organization" class="field" />
+        </div>
+
+        <div>
+          <label for="sujet" class="mb-2 block font-medium">Objet</label>
+          <div class="relative">
+            <select id="sujet" name="sujet" required class="field appearance-none pr-12">
+              <option value="" disabled selected>Choisir un objet</option>
+              {subjects.map((s) => <option value={s.value}>{s.label}</option>)}
+            </select>
+            <svg
+              class="pointer-events-none absolute top-1/2 right-4 -translate-y-1/2 text-muted"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              aria-hidden="true"
+            >
+              <path d="m6 9 6 6 6-6"></path>
+            </svg>
+          </div>
+        </div>
+
+        <div>
+          <label for="message" class="mb-2 block font-medium">Message</label>
+          <textarea id="message" name="message" rows="7" required minlength="10" class="field resize-y"></textarea>
+        </div>
+
+        <!-- Piège à robots : champ invisible, doit rester vide (convention Formspree). -->
+        <div class="hidden" aria-hidden="true">
+          <label for="_gotcha">Ne pas remplir</label>
+          <input id="_gotcha" name="_gotcha" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <div class="flex gap-3">
+          <input id="consentement" name="consentement" type="checkbox" required class="consent mt-1 size-5 shrink-0" />
+          <label for="consentement" class="text-[0.9375rem] text-muted">
+            J’accepte que mes informations soient utilisées pour répondre à ma demande. Voir la <a
+              class="link"
+              href={href('/confidentialite')}>politique de confidentialité</a
+            >.
+          </label>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-4">
+          <button type="submit" class="btn btn-primary cursor-pointer">
+            Envoyer le message
+            <Icon name="arrow-right" size={18} class="btn-arrow" />
+          </button>
+        </div>
+
+        <p class="form-status hidden border border-dashed border-line-strong p-4 text-[0.9375rem]" role="status">
+          Le formulaire n’est pas encore relié à un service d’envoi. En attendant, utilisez l’adresse e-mail indiquée.
+        </p>
+      </form>
+
+      <div class="lg:col-span-4 lg:col-start-9">
+        <Cartouche
+          title="Coordonnées"
+          reference="A6-06"
+          rows={[
+            { label: 'E-mail', value: email, href: email ? `mailto:${email}` : undefined },
+            { label: 'Téléphone', value: phone, href: phone ? `tel:${phone.replace(/\s/g, '')}` : undefined },
+            { label: 'Adresse', value: address },
+            { label: 'LinkedIn', value: linkedin ? 'Page Asans6' : null, href: linkedin ?? undefined },
+          ]}
+        />
+        <div class="mt-8 border-l-2 border-brand pl-5">
+          <p class="label text-ink">Presse</p>
+          <p class="mt-2 text-[0.9375rem] text-muted">
+            Pour une demande de journaliste, choisissez l’objet « Presse » dans le formulaire.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .consent {
+    accent-color: var(--brand);
+  }
+  .contact-form :global(.field:user-invalid) {
+    border-color: var(--danger);
+  }
+</style>
+
+<script>
+  // Pré-sélectionne l'objet depuis l'URL (?sujet=factually), par ex. depuis une page produit.
+  const form = document.querySelector<HTMLFormElement>('.contact-form');
+  const select = document.querySelector<HTMLSelectElement>('#sujet');
+  const sujet = new URLSearchParams(location.search).get('sujet');
+  if (select && sujet && [...select.options].some((o) => o.value === sujet)) select.value = sujet;
+
+  // Tant qu'aucun service d'envoi n'est configuré (src/config/site.ts), on l'indique au lieu d'envoyer.
+  form?.addEventListener('submit', (e) => {
+    if (form.dataset.configured === 'true') return;
+    e.preventDefault();
+    const status = form.querySelector<HTMLElement>('.form-status');
+    status?.classList.remove('hidden');
+  });
+</script>

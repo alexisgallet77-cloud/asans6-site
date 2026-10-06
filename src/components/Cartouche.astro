@@ -3,9 +3,13 @@
  * Élément signature du site : le cartouche, bloc d'identification d'un plan technique.
  * Utilisé pour la fiche société (accueil) et les fiches techniques produit.
  */
+import Todo from './Todo.astro';
+
 interface Row {
   label: string;
-  value: string;
+  /** `null` : affiche un emplacement « [À FOURNIR] ». */
+  value: string | null;
+  href?: string;
 }
 interface Props {
   title: string;
@@ -26,7 +30,9 @@ const { title, reference, rows, class: className } = Astro.props;
       rows.map((r) => (
         <div class="grid grid-cols-[minmax(7.5rem,40%)_1fr] border-b border-line last:border-b-0">
           <dt class="label border-r border-line px-5 py-3.5 leading-snug">{r.label}</dt>
-          <dd class="px-5 py-3 text-[0.9375rem] leading-snug text-ink">{r.value}</dd>
+          <dd class="min-w-0 px-5 py-3 text-[0.9375rem] leading-snug break-words text-ink">
+            {r.value === null ? <Todo /> : r.href ? <a class="link" href={r.href}>{r.value}</a> : r.value}
+          </dd>
         </div>
       ))
     }

@@ -1,0 +1,36 @@
+---
+import Base from '@/layouts/Base.astro';
+import Button from '@/components/Button.astro';
+import Cartouche from '@/components/Cartouche.astro';
+import { href } from '@/lib/url';
+---
+
+<Base title="Page introuvable" description="Cette page du site d’Asans6 n’existe pas ou a été déplacée. Retrouvez l’accueil, les produits, la présentation de la société ou le contact." noindex>
+  <section class="container-page section-y" aria-labelledby="titre">
+    <div class="grid gap-12 lg:grid-cols-12 lg:gap-8">
+      <div class="lg:col-span-7">
+        <p class="label">Erreur 404</p>
+        <h1 id="titre" class="mt-6 max-w-[14ch] text-display font-bold">Cette page n’existe pas.</h1>
+        <p class="mt-8 max-w-[48ch] text-lede text-muted">
+          Le lien est peut-être erroné, ou la page a été déplacée. Les pages principales restent à portée de main.
+        </p>
+        <div class="mt-10 flex flex-wrap gap-3">
+          <Button href={href('/')}>Retour à l’accueil</Button>
+          <Button href={href('/contact')} variant="secondary">Nous signaler le problème</Button>
+        </div>
+      </div>
+      <div class="lg:col-span-4 lg:col-start-9 lg:pt-3">
+        <Cartouche
+          title="Référence introuvable"
+          reference="404"
+          rows={[
+            { label: 'Accueil', value: 'Présentation d’Asans6', href: href('/') },
+            { label: 'Produits', value: 'Factually, Tixa', href: href('/produits') },
+            { label: 'À propos', value: 'Fondateurs et vision', href: href('/a-propos') },
+            { label: 'Contact', value: 'Formulaire', href: href('/contact') },
+          ]}
+        />
+      </div>
+    </div>
+  </section>
+</Base>

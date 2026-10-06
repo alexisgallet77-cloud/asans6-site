@@ -1,0 +1,124 @@
+---
+import LegalPage from '@/layouts/LegalPage.astro';
+import Todo from '@/components/Todo.astro';
+import { site } from '@/config/site';
+import { href } from '@/lib/url';
+
+const l = site.legal;
+const toc = [
+  { id: 'editeur', label: 'Éditeur du site' },
+  { id: 'publication', label: 'Directeur de la publication' },
+  { id: 'hebergement', label: 'Hébergement' },
+  { id: 'propriete', label: 'Propriété intellectuelle' },
+  { id: 'responsabilite', label: 'Responsabilité' },
+  { id: 'liens', label: 'Liens hypertextes' },
+  { id: 'donnees', label: 'Données personnelles' },
+  { id: 'droit', label: 'Droit applicable' },
+  { id: 'credits', label: 'Crédits' },
+];
+---
+
+<LegalPage
+  title="Mentions légales"
+  description="Mentions légales du site d’Asans6 : éditeur, directeur de la publication, hébergeur, propriété intellectuelle et droit applicable."
+  sheet="07 / 08"
+  updated="octobre 2026"
+  toc={toc}
+>
+  <section>
+    <h2 id="editeur">1. Éditeur du site</h2>
+    <p>
+      Le présent site est édité par la société <strong>{l.companyName}</strong>, société par actions simplifiée (SAS).
+    </p>
+    <ul>
+      <li>Capital social : {l.capital ?? <Todo />}</li>
+      <li>Siège social : {l.headOffice ?? <Todo>adresse complète</Todo>}</li>
+      <li>Immatriculation : {l.rcs ?? <Todo>RCS + ville</Todo>}</li>
+      <li>SIREN : {l.siren ?? <Todo />}</li>
+      <li>Numéro de TVA intracommunautaire : {l.vat ?? <Todo />}</li>
+      <li>
+        Contact : {site.contact.email ? <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a> : <Todo>e-mail</Todo>}
+        {site.contact.phone && <> · {site.contact.phone}</>}
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2 id="publication">2. Directeur de la publication</h2>
+    <p>
+      Le directeur de la publication est {l.publicationDirector ?? <Todo>prénom, nom, qualité (ex. président)</Todo>}.
+    </p>
+  </section>
+
+  <section>
+    <h2 id="hebergement">3. Hébergement</h2>
+    <p>Le site est hébergé par :</p>
+    <ul>
+      <li><strong>{l.host.name}</strong></li>
+      <li>{l.host.address}</li>
+      <li>Site : <a href={l.host.website} rel="noopener">{l.host.website.replace('https://', '')}</a></li>
+      <li>Téléphone : <Todo>numéro de l’hébergeur, à vérifier selon l’offre retenue</Todo></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2 id="propriete">4. Propriété intellectuelle</h2>
+    <p>
+      L’ensemble des éléments de ce site (textes, logo, mise en page, éléments graphiques) est la propriété d’{l.companyName},
+      sauf mention contraire. Les marques et logos {l.companyName}, Factually et Tixa sont des signes distinctifs
+      d’{l.companyName}.
+    </p>
+    <p>
+      Toute reproduction, représentation, modification ou adaptation de tout ou partie de ces éléments, par quelque procédé
+      que ce soit, sans autorisation écrite préalable d’{l.companyName}, est interdite et constituerait une contrefaçon
+      sanctionnée par les articles L. 335-2 et suivants du Code de la propriété intellectuelle.
+    </p>
+  </section>
+
+  <section>
+    <h2 id="responsabilite">5. Responsabilité</h2>
+    <p>
+      {l.companyName} s’efforce de fournir sur ce site des informations exactes et à jour. Elle ne peut toutefois garantir
+      l’exhaustivité de ces informations, ni l’absence d’erreur ou d’interruption du service. Les produits présentés comme
+      « en développement » ou « à venir » sont susceptibles d’évoluer avant leur mise à disposition.
+    </p>
+    <p>
+      {l.companyName} ne saurait être tenue responsable des dommages directs ou indirects résultant de l’accès au site ou de
+      l’utilisation des informations qu’il contient.
+    </p>
+  </section>
+
+  <section>
+    <h2 id="liens">6. Liens hypertextes</h2>
+    <p>
+      Ce site peut contenir des liens vers des sites tiers. {l.companyName} n’exerce aucun contrôle sur ces sites et décline
+      toute responsabilité quant à leur contenu. La création de liens vers le présent site est libre, à condition de ne pas
+      porter atteinte à l’image d’{l.companyName}.
+    </p>
+  </section>
+
+  <section>
+    <h2 id="donnees">7. Données personnelles</h2>
+    <p>
+      Le traitement des données personnelles collectées sur ce site, notamment via le formulaire de contact, est décrit dans
+      la <a href={href('/confidentialite')}>politique de confidentialité</a>. Le site ne dépose aucun cookie de mesure
+      d’audience ni de publicité.
+    </p>
+  </section>
+
+  <section>
+    <h2 id="droit">8. Droit applicable</h2>
+    <p>
+      Les présentes mentions légales sont régies par le droit français. En cas de litige, et à défaut de résolution amiable,
+      les tribunaux français seront seuls compétents.
+    </p>
+  </section>
+
+  <section>
+    <h2 id="credits">9. Crédits</h2>
+    <ul>
+      <li>Conception et développement : {l.companyName}.</li>
+      <li>Polices : Schibsted Grotesk et IBM Plex, distribuées sous licence SIL Open Font License 1.1.</li>
+    </ul>
+  </section>
+</LegalPage>

@@ -1,0 +1,46 @@
+---
+/** Mise en page des documents juridiques : titre, date de mise à jour, sommaire, texte en colonne. */
+import Base from './Base.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  sheet: string;
+  updated: string;
+  toc: { id: string; label: string }[];
+}
+const { title, description, sheet, updated, toc } = Astro.props;
+---
+
+<Base title={title} description={description} sheet={sheet}>
+  <section class="container-page pt-12 pb-10 md:pt-20 md:pb-14" aria-labelledby="titre">
+    <p class="label">Informations légales</p>
+    <h1 id="titre" class="mt-6 text-display font-bold">{title}</h1>
+    <p class="label mt-6">Mise à jour : {updated}</p>
+  </section>
+
+  <div class="border-t border-line">
+    <div class="container-page grid gap-10 py-12 md:py-16 lg:grid-cols-12 lg:gap-8">
+      <nav aria-label="Sommaire" class="lg:col-span-3">
+        <div class="lg:sticky lg:top-28">
+          <p class="label mb-4">Sommaire</p>
+          <ol class="space-y-2 text-[0.9375rem]" role="list">
+            {
+              toc.map((t, i) => (
+                <li class="flex gap-3">
+                  <span class="font-mono text-[0.8125rem] text-muted">{String(i + 1).padStart(2, '0')}</span>
+                  <a href={`#${t.id}`} class="text-ink hover:text-brand">
+                    {t.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ol>
+        </div>
+      </nav>
+      <div class="prose-doc lg:col-span-8 lg:col-start-5 [&>section:first-child>h2]:mt-0">
+        <slot />
+      </div>
+    </div>
+  </div>
+</Base>

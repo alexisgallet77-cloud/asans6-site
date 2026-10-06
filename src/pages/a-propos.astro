@@ -1,0 +1,131 @@
+---
+import Base from '@/layouts/Base.astro';
+import CtaBand from '@/components/CtaBand.astro';
+import SectionHead from '@/components/SectionHead.astro';
+import Todo from '@/components/Todo.astro';
+import { href } from '@/lib/url';
+
+/**
+ * Fondateurs : remplacer les `null` par les informations réelles.
+ * `photo` : importer une image depuis src/assets (voir README) ; sans photo, un monogramme s'affiche.
+ */
+const founders: { name: string | null; role: string | null; bio: string | null }[] = [
+  { name: null, role: null, bio: null },
+  { name: null, role: null, bio: null },
+  { name: null, role: null, bio: null },
+];
+
+const principles = [
+  {
+    title: 'Des produits ciblés',
+    text: 'Nous préférons résoudre complètement un problème précis plutôt qu’en effleurer plusieurs.',
+  },
+  {
+    title: 'La rigueur comme méthode',
+    text: 'Tests, revues de code, mesures : ce qui n’est pas vérifié n’est pas considéré comme terminé.',
+  },
+  {
+    title: 'Le temps long',
+    text: 'Un logiciel vit des années après sa mise en ligne. Nous le concevons pour être maintenu, pas seulement livré.',
+  },
+  {
+    title: 'La transparence',
+    text: 'Dire ce qu’un produit fait, ce qu’il ne fait pas encore, et comment il traite les données qu’on lui confie.',
+  },
+];
+---
+
+<Base
+  title="À propos"
+  description="Asans6 est une société fondée par trois ingénieurs pour concevoir, développer et maintenir ses propres produits logiciels. Histoire, fondateurs et vision."
+  sheet="05 / 08"
+>
+  <section class="container-page pt-12 pb-16 md:pt-20 md:pb-24" aria-labelledby="titre">
+    <p class="label">À propos</p>
+    <div class="mt-6 grid gap-8 lg:grid-cols-12">
+      <h1 id="titre" class="max-w-[16ch] text-display font-bold lg:col-span-8">
+        Une société fondée par trois ingénieurs.
+      </h1>
+      <p class="max-w-[44ch] self-end text-lede text-muted lg:col-span-4">
+        Nous construisons des logiciels pour des problèmes concrets, et nous les maintenons dans la durée.
+      </p>
+    </div>
+  </section>
+
+  <!-- § 01 — Histoire -->
+  <section class="border-t border-line" aria-labelledby="histoire">
+    <div class="container-page section-y">
+      <SectionHead number="01" label="Histoire" id="histoire">Pourquoi Asans6.</SectionHead>
+      <div class="mt-10 grid gap-6 md:grid-cols-12 md:gap-8">
+        <div class="space-y-5 md:col-span-7 md:col-start-4">
+          <p class="text-lede">
+            Les trois fondateurs d’Asans6 sont ingénieurs. Ils ont créé la société pour porter leurs propres produits
+            logiciels, du premier prototype à la maintenance.
+          </p>
+          <p class="text-muted">
+            Le premier, Factually, répond à un problème devenu quotidien : vérifier une information demande du temps, et
+            ce temps manque. Le second, Tixa, part du métier de chauffeur de taxi et de ses contraintes très concrètes.
+          </p>
+          <p class="text-muted">
+            <Todo>date de création, contexte de la fondation, origine du nom Asans6</Todo>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- § 02 — Fondateurs : lignes -->
+  <section class="border-y border-line bg-surface" aria-labelledby="fondateurs">
+    <div class="container-page section-y">
+      <SectionHead number="02" label="Fondateurs" id="fondateurs">Les fondateurs.</SectionHead>
+      <ul class="mt-12 border-t border-line-strong md:mt-16" role="list">
+        {
+          founders.map((f, i) => (
+            <li class="grid gap-6 border-b border-line-strong py-8 sm:grid-cols-[6rem_1fr] md:grid-cols-12 md:gap-8 md:py-10">
+              <div
+                class="grid size-24 place-items-center border border-line-strong bg-bg md:col-span-2"
+                aria-hidden="true"
+              >
+                <span class="font-display text-[2rem] font-bold text-muted">
+                  {f.name ? f.name.split(' ').map((w) => w[0]).join('').slice(0, 2) : String(i + 1).padStart(2, '0')}
+                </span>
+              </div>
+              <div class="md:col-span-4 md:col-start-4">
+                <h3 class="text-h3 font-semibold">{f.name ?? <Todo>prénom et nom</Todo>}</h3>
+                <p class="label mt-2">{f.role ?? <Todo>rôle</Todo>}</p>
+              </div>
+              <p class="max-w-[52ch] text-muted sm:col-start-2 md:col-span-5 md:col-start-8">
+                {f.bio ?? <Todo>parcours en deux ou trois lignes, photo</Todo>}
+              </p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- § 03 — Vision -->
+  <section class="container-page section-y" aria-labelledby="vision">
+    <SectionHead number="03" label="Vision" id="vision">
+      Peu de produits, bien faits, <span class="text-muted">et tenus dans la durée.</span>
+    </SectionHead>
+    <dl class="mt-12 grid gap-x-10 md:mt-16 md:grid-cols-12">
+      {
+        principles.map((p) => (
+          <div class="border-t border-line py-6 md:col-span-9 md:col-start-4 md:grid md:grid-cols-9 md:gap-8">
+            <dt class="text-h3 font-display font-semibold md:col-span-3">{p.title}</dt>
+            <dd class="mt-2 max-w-[52ch] text-muted md:col-span-6 md:mt-0">{p.text}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </section>
+
+  <CtaBand
+    number="04"
+    title="Parlons de votre besoin."
+    text="Démonstration, partenariat ou question de presse : écrivez-nous."
+    button="Nous écrire"
+    href={href('/contact')}
+  />
+</Base>

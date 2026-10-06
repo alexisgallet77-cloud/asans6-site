@@ -9,7 +9,8 @@
     "preview": "astro preview",
     "check": "astro check",
     "logo": "node scripts/prepare-logo.mjs",
-    "shots": "node scripts/screenshots.mjs"
+    "shots": "node scripts/screenshots.mjs",
+    "audit": "node scripts/audit.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",
@@ -28,6 +29,7 @@
     "vite": "^6.4.4"
   },
   "overrides": {
-    "@astrojs/language-server": "2.16.7"
+    "@astrojs/language-server": "2.16.7",
+    "sharp": "$sharp"
   }
 }

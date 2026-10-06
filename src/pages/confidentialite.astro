@@ -1,0 +1,161 @@
+---
+import LegalPage from '@/layouts/LegalPage.astro';
+import Todo from '@/components/Todo.astro';
+import { site } from '@/config/site';
+import { href } from '@/lib/url';
+
+const l = site.legal;
+const email = site.contact.email;
+const toc = [
+  { id: 'responsable', label: 'Responsable du traitement' },
+  { id: 'donnees', label: 'Données collectées' },
+  { id: 'finalites', label: 'Finalités et bases légales' },
+  { id: 'durees', label: 'Durées de conservation' },
+  { id: 'destinataires', label: 'Destinataires et sous-traitants' },
+  { id: 'transferts', label: 'Transferts hors de l’Union européenne' },
+  { id: 'cookies', label: 'Cookies et stockage local' },
+  { id: 'droits', label: 'Vos droits' },
+  { id: 'securite', label: 'Sécurité' },
+  { id: 'modifications', label: 'Modifications' },
+];
+---
+
+<LegalPage
+  title="Politique de confidentialité"
+  description="Comment Asans6 traite les données personnelles collectées sur son site : données, finalités, durées de conservation, destinataires et droits."
+  sheet="08 / 08"
+  updated="octobre 2026"
+  toc={toc}
+>
+  <section>
+    <h2 id="responsable">1. Responsable du traitement</h2>
+    <p>
+      Le responsable du traitement des données collectées sur ce site est la société <strong>{l.companyName}</strong>
+      (SAS), dont le siège social est situé {l.headOffice ?? <Todo>adresse du siège</Todo>}.
+    </p>
+    <p>
+      Contact pour toute question relative à vos données : {email ? <a href={`mailto:${email}`}>{email}</a> : <Todo>e-mail</Todo>}.
+    </p>
+  </section>
+
+  <section>
+    <h2 id="donnees">2. Données collectées</h2>
+    <h3>Formulaire de contact</h3>
+    <p>Lorsque vous nous écrivez via le formulaire de contact, nous recevons :</p>
+    <ul>
+      <li>votre nom et votre adresse e-mail ;</li>
+      <li>le nom de votre organisation, si vous le renseignez ;</li>
+      <li>l’objet et le contenu de votre message.</li>
+    </ul>
+    <p>Ces informations sont fournies directement par vous. Aucune autre donnée n’est demandée.</p>
+    <h3>Données techniques</h3>
+    <p>
+      Comme tout serveur web, l’hébergeur du site enregistre des données techniques de connexion (notamment l’adresse IP et
+      les pages consultées) à des fins de sécurité et de bon fonctionnement du service. {l.companyName} n’utilise pas ces
+      données à des fins de suivi ou de profilage.
+    </p>
+  </section>
+
+  <section>
+    <h2 id="finalites">3. Finalités et bases légales</h2>
+    <ul>
+      <li>
+        <strong>Répondre à vos demandes</strong> (démonstration, partenariat, presse, questions) : exécution de mesures
+        précontractuelles prises à votre demande, ou intérêt légitime d’{l.companyName} à répondre aux messages qui lui
+        sont adressés (article 6.1 b et f du RGPD).
+      </li>
+      <li>
+        <strong>Assurer la sécurité du site</strong> : intérêt légitime (article 6.1 f du RGPD).
+      </li>
+    </ul>
+    <p>Vos données ne sont ni vendues, ni louées, ni utilisées pour de la prospection sans votre accord.</p>
+  </section>
+
+  <section>
+    <h2 id="durees">4. Durées de conservation</h2>
+    <ul>
+      <li>
+        Messages reçus via le formulaire : <strong>3 ans</strong> à compter de notre dernier échange, conformément aux
+        recommandations de la CNIL, sauf si une relation contractuelle s’engage (les données sont alors conservées pendant
+        la durée de cette relation et les délais légaux qui suivent).
+      </li>
+      <li>Données techniques de connexion : selon la politique de l’hébergeur.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2 id="destinataires">5. Destinataires et sous-traitants</h2>
+    <p>
+      Vos données sont destinées aux seules personnes d’{l.companyName} chargées de traiter votre demande. Elles peuvent être
+      traitées, pour notre compte, par les prestataires techniques suivants :
+    </p>
+    <ul>
+      <li>
+        <strong>{l.host.name}</strong>, hébergement du site.
+      </li>
+      <li>
+        <strong>Service d’envoi du formulaire</strong> : <Todo>nom et adresse du service retenu (ex. Formspree)</Todo>.
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2 id="transferts">6. Transferts hors de l’Union européenne</h2>
+    <p>
+      Certains de ces prestataires sont établis aux États-Unis. Ces transferts sont encadrés par des garanties appropriées
+      au sens du RGPD, comme la certification au cadre de protection des données UE–États-Unis (Data Privacy Framework) ou
+      des clauses contractuelles types adoptées par la Commission européenne. <Todo>
+        vérifier et préciser la garantie applicable à chaque prestataire
+      </Todo>
+    </p>
+  </section>
+
+  <section>
+    <h2 id="cookies">7. Cookies et stockage local</h2>
+    <p>
+      Ce site ne dépose <strong>aucun cookie</strong> : ni mesure d’audience, ni publicité, ni réseau social. Aucun bandeau
+      de consentement n’est donc nécessaire.
+    </p>
+    <p>
+      Si vous choisissez un thème d’affichage (clair ou sombre), ce choix est enregistré dans le stockage local de votre
+      navigateur, sur votre appareil uniquement. Cette information ne nous est pas transmise et vous pouvez l’effacer à tout
+      moment depuis les réglages de votre navigateur.
+    </p>
+  </section>
+
+  <section>
+    <h2 id="droits">8. Vos droits</h2>
+    <p>Conformément au RGPD et à la loi « Informatique et Libertés », vous disposez des droits suivants sur vos données :</p>
+    <ul>
+      <li>droit d’accès, de rectification et d’effacement ;</li>
+      <li>droit à la limitation du traitement et droit d’opposition ;</li>
+      <li>droit à la portabilité ;</li>
+      <li>droit de définir des directives relatives au sort de vos données après votre décès.</li>
+    </ul>
+    <p>
+      Pour exercer ces droits, écrivez-nous à {email ? <a href={`mailto:${email}`}>{email}</a> : <Todo>e-mail</Todo>} ou via
+      le <a href={href('/contact')}>formulaire de contact</a>. Nous répondons dans un délai d’un mois.
+    </p>
+    <p>
+      Si vous estimez, après nous avoir contactés, que vos droits ne sont pas respectés, vous pouvez adresser une réclamation
+      à la CNIL : <a href="https://www.cnil.fr/fr/plaintes" rel="noopener">www.cnil.fr/fr/plaintes</a>, ou par courrier à
+      CNIL, 3 place de Fontenoy, TSA 80715, 75334 Paris Cedex 07.
+    </p>
+  </section>
+
+  <section>
+    <h2 id="securite">9. Sécurité</h2>
+    <p>
+      Le site est servi exclusivement en HTTPS. L’accès aux messages reçus est limité aux personnes qui en ont besoin pour
+      traiter votre demande.
+    </p>
+  </section>
+
+  <section>
+    <h2 id="modifications">10. Modifications</h2>
+    <p>
+      Cette politique peut évoluer, notamment lors de l’ajout de nouveaux services. La date de mise à jour figure en haut de
+      cette page.
+    </p>
+  </section>
+</LegalPage>
