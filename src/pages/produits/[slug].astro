@@ -38,13 +38,13 @@ const statusNote = {
 
     <div class="mt-10 grid gap-12 lg:grid-cols-12 lg:gap-8">
       <div class="lg:col-span-7">
-        <span class="status" data-status={p.status}>{p.status}</span>
-        <h1 id="titre" class="mt-6 text-display font-bold">{p.name}</h1>
-        <p class="mt-6 max-w-[24ch] font-display text-[clamp(1.25rem,1.1rem+0.8vw,2rem)] leading-tight font-semibold">
+        <span class="status" data-status={p.status} data-intro>{p.status}</span>
+        <h1 id="titre" class="mt-6 text-display font-bold" data-intro style="--i:1">{p.name}</h1>
+        <p data-intro style="--i:2" class="mt-6 max-w-[24ch] font-display text-[clamp(1.25rem,1.1rem+0.8vw,2rem)] leading-tight font-semibold">
           {p.tagline}
         </p>
-        <p class="mt-6 max-w-[58ch] text-lede text-muted">{p.summary}</p>
-        <div class="mt-10 flex flex-wrap gap-3">
+        <p class="mt-6 max-w-[58ch] text-lede text-muted" data-intro style="--i:3">{p.summary}</p>
+        <div class="mt-10 flex flex-wrap gap-3" data-intro style="--i:4">
           <a href={contactHref} class="btn btn-primary">{p.cta.button} <Icon name="arrow-right" size={18} class="btn-arrow" /></a>
           <a href="#fonctionnement" class="btn btn-secondary">Comment ça marche</a>
         </div>
@@ -60,8 +60,8 @@ const statusNote = {
   <!-- Problème et solution -->
   <section class="border-t border-line" aria-labelledby="probleme">
     <div class="container-page section-y grid gap-8 lg:grid-cols-12">
-      <h2 id="probleme" class="text-h2 font-[650] lg:col-span-5">{p.problem.title}</h2>
-      <div class="space-y-5 lg:col-span-6 lg:col-start-7 lg:pt-2">
+      <h2 id="probleme" class="text-h2 font-[650] lg:col-span-5" data-reveal>{p.problem.title}</h2>
+      <div class="space-y-5 lg:col-span-6 lg:col-start-7 lg:pt-2" data-reveal style="--i:2">
         {p.problem.paragraphs.map((t, i) => <p class:list={[i === 0 ? 'text-lede' : 'text-muted']}>{t}</p>)}
       </div>
     </div>
@@ -69,8 +69,8 @@ const statusNote = {
 
   <section class="border-y border-line bg-surface" aria-labelledby="solution">
     <div class="container-page section-y grid gap-8 lg:grid-cols-12">
-      <h2 id="solution" class="text-h2 font-[650] lg:col-span-5">{p.solution.title}</h2>
-      <div class="space-y-5 lg:col-span-6 lg:col-start-7 lg:pt-2">
+      <h2 id="solution" class="text-h2 font-[650] lg:col-span-5" data-reveal>{p.solution.title}</h2>
+      <div class="space-y-5 lg:col-span-6 lg:col-start-7 lg:pt-2" data-reveal style="--i:2">
         {p.solution.paragraphs.map((t, i) => <p class:list={[i === 0 ? 'text-lede' : 'text-muted']}>{t}</p>)}
       </div>
     </div>
@@ -78,12 +78,12 @@ const statusNote = {
 
   <!-- Fonctionnement -->
   <section class="container-page section-y" aria-labelledby="fonctionnement">
-    <h2 id="fonctionnement" class="text-h2 font-[650]">Comment ça marche.</h2>
+    <h2 id="fonctionnement" class="text-h2 font-[650]" data-reveal>Comment ça marche.</h2>
     <ol class="mt-10 md:mt-14" role="list">
       {
         p.steps.map((s, i) => (
-          <li class="grid gap-x-8 gap-y-2 border-t border-line py-7 md:grid-cols-12 md:py-9">
-            <span class="font-display text-[2.5rem] leading-none font-bold tracking-[-0.03em] text-accent md:col-span-2" aria-hidden="true">
+          <li class="grid gap-x-8 gap-y-2 border-t border-line py-7 md:grid-cols-12 md:py-9" data-reveal style={`--i:${i}`}>
+            <span class="font-display text-[2.5rem] leading-none font-bold tracking-[-0.03em] text-accent md:col-span-2" aria-hidden="true" data-reveal="left" style={`--i:${i + 2}`}>
               {String(i + 1).padStart(2, '0')}
             </span>
             <h3 class="text-h3 font-semibold md:col-span-4">
@@ -100,11 +100,11 @@ const statusNote = {
   <!-- Bénéfices -->
   <section class="border-t border-line" aria-labelledby="benefices">
     <div class="container-page section-y">
-      <h2 id="benefices" class="text-h2 font-[650]">Ce que {p.name} change.</h2>
+      <h2 id="benefices" class="text-h2 font-[650]" data-reveal>Ce que {p.name} change.</h2>
       <ul class="mt-10 grid border-t border-l border-line-strong sm:grid-cols-2 md:mt-14" role="list">
         {
-          p.benefits.map((b) => (
-            <li class="border-r border-b border-line-strong p-6 sm:last:odd:col-span-2 md:p-10">
+          p.benefits.map((b, i) => (
+            <li class="border-r border-b border-line-strong p-6 sm:last:odd:col-span-2 md:p-10" data-reveal="fade" style={`--i:${i}`}>
               <Icon name="check" size={22} class="text-brand" />
               <h3 class="mt-5 text-h3 font-semibold">{b.title}</h3>
               <p class="mt-3 max-w-[44ch] text-muted">{b.text}</p>

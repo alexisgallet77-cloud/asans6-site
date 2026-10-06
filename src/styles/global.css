@@ -395,3 +395,74 @@
     border: 1px solid var(--muted);
   }
 }
+
+/* ------------------------------------------------------------------
+   Animations d'apparition au défilement
+   - [data-reveal] : "up" (défaut), "fade", "left", "line" ; --i = rang (décalage en cascade)
+   - Actives seulement si la classe .motion est posée (JS présent et mouvement autorisé)
+   ------------------------------------------------------------------ */
+.motion [data-reveal] {
+  transition:
+    opacity 700ms var(--ease-out),
+    translate 700ms var(--ease-out),
+    scale 900ms var(--ease-out);
+  transition-delay: calc(var(--i, 0) * 70ms);
+}
+.motion [data-reveal]:not(.is-visible) {
+  opacity: 0;
+  translate: 0 1.5rem;
+}
+.motion [data-reveal='fade']:not(.is-visible) {
+  translate: none;
+}
+.motion [data-reveal='left']:not(.is-visible) {
+  translate: -1rem 0;
+}
+.motion [data-reveal='line'] {
+  transform-origin: left;
+}
+.motion [data-reveal='line']:not(.is-visible) {
+  opacity: 1;
+  translate: none;
+  scale: 0 1;
+}
+
+/* Arrivée de l'en-tête de page au chargement */
+@keyframes intro {
+  from {
+    opacity: 0;
+    translate: 0 1rem;
+  }
+}
+.motion [data-intro] {
+  animation: intro 800ms var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * 90ms + 60ms);
+}
+
+/* Barre de progression de lecture (CSS pur, navigateurs compatibles uniquement) */
+.read-progress {
+  display: none;
+}
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .read-progress {
+      display: block;
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 50;
+      height: 2px;
+      background-color: var(--brand);
+      transform-origin: left;
+      animation: read-progress linear both;
+      animation-timeline: scroll(root);
+    }
+  }
+}
+@keyframes read-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}

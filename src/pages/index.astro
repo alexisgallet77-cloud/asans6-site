@@ -29,22 +29,22 @@ const method = [
   <section class="container-page pt-12 pb-16 md:pt-20 md:pb-24" aria-labelledby="titre">
     <div class="grid gap-12 lg:grid-cols-12 lg:gap-8">
       <div class="lg:col-span-8">
-        <h1 id="titre" class="max-w-[17ch] text-display font-bold">
+        <h1 id="titre" class="max-w-[17ch] text-display font-bold" data-intro>
           Des logiciels conçus par des ingénieurs, pour des problèmes précis.
         </h1>
-        <p class="mt-8 max-w-[56ch] text-lede text-muted">
+        <p class="mt-8 max-w-[56ch] text-lede text-muted" data-intro style="--i:1">
           Asans6 conçoit, développe et maintient ses propres produits. Le premier, <a
             href={href('/produits/factually')}
             class="link font-medium">Factually</a
           >, aide à vérifier l’information avec l’appui de l’intelligence artificielle. Le suivant, Tixa, s’adresse
           aux chauffeurs de taxi.
         </p>
-        <div class="mt-10 flex flex-wrap gap-3">
+        <div class="mt-10 flex flex-wrap gap-3" data-intro style="--i:2">
           <a href={href('/contact')} class="btn btn-primary">Nous écrire <Icon name="arrow-right" size={18} class="btn-arrow" /></a>
           <a href={href('/produits')} class="btn btn-secondary">Voir les produits <Icon name="arrow-right" size={18} class="btn-arrow" /></a>
         </div>
       </div>
-      <div class="lg:col-span-4 lg:pt-3">
+      <div class="lg:col-span-4 lg:pt-3" data-intro style="--i:3">
         <Cartouche
           title="Fiche société"
           reference="A6-00"
@@ -62,8 +62,8 @@ const method = [
   <!-- Ce que nous faisons -->
   <section class="border-t border-line" aria-labelledby="metier">
     <div class="container-page section-y grid gap-8 lg:grid-cols-12">
-      <h2 id="metier" class="text-h2 font-[650] lg:col-span-5">Un éditeur de logiciels, de l’idée à la maintenance.</h2>
-      <div class="space-y-5 lg:col-span-6 lg:col-start-7 lg:pt-2">
+      <h2 id="metier" class="text-h2 font-[650] lg:col-span-5" data-reveal>Un éditeur de logiciels, de l’idée à la maintenance.</h2>
+      <div class="space-y-5 lg:col-span-6 lg:col-start-7 lg:pt-2" data-reveal style="--i:2">
         <p class="text-lede">
           Asans6 porte ses propres produits logiciels. Nous les concevons, les développons, les mettons en production et
           les maintenons.
@@ -79,11 +79,11 @@ const method = [
   <!-- Produits : index en lignes -->
   <section class="border-y border-line bg-surface" aria-labelledby="produits">
     <div class="container-page section-y">
-      <h2 id="produits" class="text-h2 font-[650]">Nos produits.</h2>
+      <h2 id="produits" class="text-h2 font-[650]" data-reveal>Nos produits.</h2>
       <ul class="mt-10 border-t border-line-strong md:mt-14" role="list">
         {
-          products.map((p) => (
-            <li class="border-b border-line-strong">
+          products.map((p, i) => (
+            <li class="border-b border-line-strong" data-reveal style={`--i:${i + 1}`}>
               <a
                 href={href(`/produits/${p.slug}`)}
                 class="product-row group grid gap-x-8 gap-y-3 py-8 md:grid-cols-12 md:items-baseline md:py-10"
@@ -112,11 +112,11 @@ const method = [
 
   <!-- Compétences -->
   <section class="container-page section-y" aria-labelledby="competences">
-    <h2 id="competences" class="max-w-[20ch] text-h2 font-[650]">Les compétences derrière nos produits.</h2>
+    <h2 id="competences" class="max-w-[20ch] text-h2 font-[650]" data-reveal>Les compétences derrière nos produits.</h2>
     <dl class="mt-10 grid gap-x-10 md:mt-14 md:grid-cols-2">
       {
-        skills.map(([title, text]) => (
-          <div class="border-t border-line py-6">
+        skills.map(([title, text], i) => (
+          <div class="border-t border-line py-6" data-reveal style={`--i:${i}`}>
             <dt class="text-h3 font-display font-semibold">{title}</dt>
             <dd class="mt-2 max-w-[46ch] text-muted">{text}</dd>
           </div>
@@ -128,17 +128,20 @@ const method = [
   <!-- Méthode -->
   <section class="border-t border-line" aria-labelledby="methode">
     <div class="container-page section-y">
-      <h2 id="methode" class="max-w-[26ch] text-h2 font-[650]">
+      <h2 id="methode" class="max-w-[26ch] text-h2 font-[650]" data-reveal>
         Un logiciel n’est pas fini quand il est livré.
         <span class="text-muted">Il l’est quand il est utile, et il le reste tant qu’il est maintenu.</span>
       </h2>
       <ol class="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6" role="list">
         {
           method.map(([title, text], i) => (
-            <li class="border-t-2 border-ink pt-5">
+            <li>
+              <span class="block h-0.5 bg-ink" data-reveal="line" style={`--i:${i * 2}`} aria-hidden="true"></span>
+              <div class="pt-5" data-reveal style={`--i:${i * 2 + 1}`}>
               <p class="font-mono text-[0.875rem] text-muted">{String(i + 1).padStart(2, '0')}</p>
               <h3 class="mt-3 text-h3 font-semibold">{title}</h3>
               <p class="mt-2 text-muted">{text}</p>
+              </div>
             </li>
           ))
         }

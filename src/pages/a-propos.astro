@@ -25,8 +25,8 @@ const initials = (name: string) => name.split(' ').map((w) => w[0]).join('').sli
 >
   <section class="container-page pt-12 pb-16 md:pt-20 md:pb-24" aria-labelledby="titre">
     <div class="grid gap-8 lg:grid-cols-12">
-      <h1 id="titre" class="max-w-[16ch] text-display font-bold lg:col-span-8">Une société fondée par trois ingénieurs.</h1>
-      <p class="max-w-[44ch] self-end text-lede text-muted lg:col-span-4">
+      <h1 id="titre" class="max-w-[16ch] text-display font-bold lg:col-span-8" data-intro>Une société fondée par trois ingénieurs.</h1>
+      <p class="max-w-[44ch] self-end text-lede text-muted lg:col-span-4" data-intro style="--i:1">
         Nous construisons des logiciels pour des problèmes concrets, et nous les maintenons dans la durée.
       </p>
     </div>
@@ -35,8 +35,8 @@ const initials = (name: string) => name.split(' ').map((w) => w[0]).join('').sli
   <!-- Histoire -->
   <section class="border-t border-line" aria-labelledby="histoire">
     <div class="container-page section-y grid gap-8 lg:grid-cols-12">
-      <h2 id="histoire" class="text-h2 font-[650] lg:col-span-5">Pourquoi Asans6.</h2>
-      <div class="space-y-5 lg:col-span-6 lg:col-start-7 lg:pt-2">
+      <h2 id="histoire" class="text-h2 font-[650] lg:col-span-5" data-reveal>Pourquoi Asans6.</h2>
+      <div class="space-y-5 lg:col-span-6 lg:col-start-7 lg:pt-2" data-reveal style="--i:2">
         <p class="text-lede">
           Les trois fondateurs d’Asans6 sont ingénieurs. Ils ont créé la société pour porter leurs propres produits
           logiciels, du premier prototype à la maintenance.
@@ -53,11 +53,11 @@ const initials = (name: string) => name.split(' ').map((w) => w[0]).join('').sli
   <!-- Fondateurs -->
   <section class="border-y border-line bg-surface" aria-labelledby="fondateurs">
     <div class="container-page section-y">
-      <h2 id="fondateurs" class="text-h2 font-[650]">Les fondateurs.</h2>
+      <h2 id="fondateurs" class="text-h2 font-[650]" data-reveal>Les fondateurs.</h2>
       <ul class="mt-10 border-t border-line-strong md:mt-14" role="list">
         {
           founders.map((f, i) => (
-            <li class="grid gap-6 border-b border-line-strong py-8 sm:grid-cols-[6rem_1fr] md:grid-cols-12 md:gap-8 md:py-10">
+            <li data-reveal style={`--i:${i}`} class="grid gap-6 border-b border-line-strong py-8 sm:grid-cols-[6rem_1fr] md:grid-cols-12 md:gap-8 md:py-10">
               <div class="grid size-24 place-items-center border border-line-strong bg-bg md:col-span-2" aria-hidden="true">
                 <span class="font-display text-[2rem] font-bold text-muted">{f.name ? initials(f.name) : i + 1}</span>
               </div>
@@ -77,13 +77,13 @@ const initials = (name: string) => name.split(' ').map((w) => w[0]).join('').sli
 
   <!-- Vision -->
   <section class="container-page section-y" aria-labelledby="vision">
-    <h2 id="vision" class="max-w-[22ch] text-h2 font-[650]">
+    <h2 id="vision" class="max-w-[22ch] text-h2 font-[650]" data-reveal>
       Peu de produits, bien faits, <span class="text-muted">et tenus dans la durée.</span>
     </h2>
     <dl class="mt-10 md:mt-14">
       {
-        principles.map(([title, text]) => (
-          <div class="border-t border-line py-6 md:grid md:grid-cols-12 md:gap-8">
+        principles.map(([title, text], i) => (
+          <div data-reveal style={`--i:${i}`} class="border-t border-line py-6 md:grid md:grid-cols-12 md:gap-8">
             <dt class="text-h3 font-display font-semibold md:col-span-5">{title}</dt>
             <dd class="mt-2 max-w-[52ch] text-muted md:col-span-6 md:col-start-7 md:mt-0">{text}</dd>
           </div>

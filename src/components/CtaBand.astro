@@ -13,8 +13,8 @@ const { title, text, button, href } = Astro.props;
 
 <section class="bg-band text-on-band" aria-labelledby="cta-titre">
   <div class="container-page grid gap-8 py-16 md:py-24 lg:grid-cols-12">
-    <h2 id="cta-titre" class="max-w-[22ch] text-h2 font-[650] lg:col-span-6">{title}</h2>
-    <div class="lg:col-span-5 lg:col-start-8">
+    <h2 id="cta-titre" class="max-w-[22ch] text-h2 font-[650] lg:col-span-6" data-reveal>{title}</h2>
+    <div class="lg:col-span-5 lg:col-start-8" data-reveal style="--i:2">
       <p class="max-w-[52ch] text-lede text-on-band/85">{text}</p>
       <a href={href} class="btn btn-inverse mt-8">
         {button}

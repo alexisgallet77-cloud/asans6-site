@@ -32,6 +32,9 @@ const ogImage = new URL(`${href('/')}og-default.png`, Astro.site);
         } catch (e) {}
         if (t !== 'dark' && t !== 'light') t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
         document.documentElement.dataset.theme = t;
+        // Animations d'apparition seulement si le mouvement est autorisé (sinon tout reste visible).
+        if (!matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObserver' in window)
+          document.documentElement.classList.add('motion');
       })();
     </script>
     <title>{fullTitle}</title>
@@ -63,5 +66,22 @@ const ogImage = new URL(`${href('/')}og-default.png`, Astro.site);
       <slot />
     </main>
     <Footer />
+    <script>
+      // Révèle chaque [data-reveal] une seule fois, quand il entre dans l'écran.
+      const items = document.querySelectorAll('[data-reveal]');
+      if (document.documentElement.classList.contains('motion')) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const e of entries) {
+              if (!e.isIntersecting) continue;
+              e.target.classList.add('is-visible');
+              io.unobserve(e.target);
+            }
+          },
+          { rootMargin: '0px 0px -8% 0px' },
+        );
+        items.forEach((el) => io.observe(el));
+      }
+    </script>
   </body>
 </html>

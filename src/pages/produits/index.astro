@@ -13,8 +13,8 @@ import { href } from '@/lib/url';
 >
   <section class="container-page pt-12 pb-12 md:pt-20 md:pb-16" aria-labelledby="titre">
     <div class="grid gap-8 lg:grid-cols-12">
-      <h1 id="titre" class="text-display font-bold lg:col-span-7">Ce que nous construisons.</h1>
-      <p class="max-w-[48ch] self-end text-lede text-muted lg:col-span-5">
+      <h1 id="titre" class="text-display font-bold lg:col-span-7" data-intro>Ce que nous construisons.</h1>
+      <p class="max-w-[48ch] self-end text-lede text-muted lg:col-span-5" data-intro style="--i:1">
         Chaque produit répond à un problème précis, pour un public précis. Les voici, du plus avancé au plus récent.
       </p>
     </div>
@@ -24,7 +24,7 @@ import { href } from '@/lib/url';
     {
       products.map((p, i) => (
         <article class="grid gap-10 border-t-2 border-ink py-12 md:py-16 lg:grid-cols-12 lg:gap-8" aria-labelledby={`p-${p.slug}`}>
-          <div class="lg:col-span-7">
+          <div class="lg:col-span-7" data-reveal>
             <h2 id={`p-${p.slug}`} class="font-display text-[clamp(2.5rem,1.8rem+3vw,4.5rem)] leading-none font-bold tracking-[-0.03em]">
               {p.name}
             </h2>
@@ -35,7 +35,7 @@ import { href } from '@/lib/url';
               Découvrir {p.name} <Icon name="arrow-right" size={18} class="btn-arrow" />
             </a>
           </div>
-          <div class="lg:col-span-5">
+          <div class="lg:col-span-5" data-reveal style="--i:2">
             <Cartouche title="Fiche technique" reference={`${p.name.slice(0, 3).toUpperCase()}-0${i + 1}`} rows={p.spec} />
           </div>
         </article>

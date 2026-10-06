@@ -12,6 +12,7 @@ const { title, description, updated, toc } = Astro.props;
 ---
 
 <Base title={title} description={description}>
+  <div class="read-progress" aria-hidden="true"></div>
   <section class="container-page pt-12 pb-10 md:pt-20 md:pb-14" aria-labelledby="titre">
     <h1 id="titre" class="text-display font-bold">{title}</h1>
     <p class="mt-6 text-muted">Mise à jour : {updated}</p>
