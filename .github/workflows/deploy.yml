@@ -27,16 +27,15 @@ jobs:
           node-version: 22
           cache: npm
 
-      # Fournit l'URL publique et le chemin de base (ex. /nom-du-depot ou / avec un domaine personnalisé).
-      - id: pages
-        uses: actions/configure-pages@v5
+      - uses: actions/configure-pages@v5
 
       - run: npm ci
 
+      # Domaine personnalisé asans6.fr (configuré dans Settings > Pages) : URL de base fixe.
       - run: npm run build
         env:
-          SITE_URL: ${{ steps.pages.outputs.origin }}
-          BASE_PATH: ${{ steps.pages.outputs.base_path || '/' }}
+          SITE_URL: https://asans6.fr
+          BASE_PATH: /
 
       - uses: actions/upload-pages-artifact@v3
         with:

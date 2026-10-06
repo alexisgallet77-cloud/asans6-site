@@ -45,7 +45,7 @@ Tant que `formEndpoint` vaut `null`, l'envoi affiche un message explicatif.
 
 1. Pousser le code sur la branche `main` d'un dépôt GitHub.
 2. Dans le dépôt : **Settings → Pages → Source : GitHub Actions**.
-3. Chaque push publie le site (`.github/workflows/deploy.yml`). L'adresse `compte.github.io/depot/` comme un domaine personnalisé sont gérés automatiquement.
+3. Chaque push publie le site sur **https://asans6.fr** (`.github/workflows/deploy.yml`). Le domaine est configuré dans Settings → Pages et chez OVH (zone DNS).
 
 Ailleurs (Netlify, Vercel, OVH) : commande `npm run build`, dossier `dist/`, variables `SITE_URL` (ex. `https://www.asans6.fr`) et `BASE_PATH` (`/`).
 

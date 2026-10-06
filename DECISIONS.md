@@ -20,7 +20,6 @@ Tous apparaissent sur le site dans un cadre pointillé. Ils se renseignent dans 
 | Nom du service de formulaire et garanties de transfert hors UE | Confidentialité | `src/pages/confidentialite.astro` |
 | Les trois fondateurs : nom, rôle, parcours, photo | À propos | `founders` dans `src/pages/a-propos.astro` |
 | Date et contexte de création, origine du nom Asans6 | À propos | `src/pages/a-propos.astro` |
-| Nom de domaine définitif | URL canoniques, sitemap, Open Graph | `SITE_URL` (déploiement) ou `astro.config.mjs` |
 | Logo vectoriel (SVG) | Partout | remplacer les PNG de `src/assets/brand/` |
 
 Aucune preuve sociale n'a été inventée : pas de chiffres, de logos clients, de témoignages ni de récompenses.
@@ -49,7 +48,7 @@ Aucune preuve sociale n'a été inventée : pas de chiffres, de logos clients, d
 | Formulaire prêt pour Formspree | GitHub Pages n'exécute pas de code serveur ; Netlify Forms n'y fonctionne pas. |
 | `trailingSlash: 'always'` | Correspond au fonctionnement de GitHub Pages (`/page/` → `page/index.html`). |
 | Chemin de base configurable (`BASE_PATH`) | Le site fonctionne sur `compte.github.io/depot/` comme sur un domaine personnalisé. |
-| Domaine provisoire `https://www.asans6.fr` | À confirmer ; utilisé par défaut hors GitHub Actions. |
+| Domaine `https://asans6.fr` (sans www) | Adresse principale ; `www.asans6.fr` redirige vers elle. Acheté chez OVH, hébergé sur GitHub Pages. |
 
 ### Dépendances
 
