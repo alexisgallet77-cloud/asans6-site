@@ -1,6 +1,6 @@
 ---
 import Base from '@/layouts/Base.astro';
-import Button from '@/components/Button.astro';
+import Icon from '@/components/Icon.astro';
 import Cartouche from '@/components/Cartouche.astro';
 import { href } from '@/lib/url';
 ---
@@ -9,14 +9,14 @@ import { href } from '@/lib/url';
   <section class="container-page section-y" aria-labelledby="titre">
     <div class="grid gap-12 lg:grid-cols-12 lg:gap-8">
       <div class="lg:col-span-7">
-        <p class="label">Erreur 404</p>
+        <p class="text-muted">Erreur 404</p>
         <h1 id="titre" class="mt-6 max-w-[14ch] text-display font-bold">Cette page n’existe pas.</h1>
         <p class="mt-8 max-w-[48ch] text-lede text-muted">
           Le lien est peut-être erroné, ou la page a été déplacée. Les pages principales restent à portée de main.
         </p>
         <div class="mt-10 flex flex-wrap gap-3">
-          <Button href={href('/')}>Retour à l’accueil</Button>
-          <Button href={href('/contact')} variant="secondary">Nous signaler le problème</Button>
+          <a href={href('/')} class="btn btn-primary">Retour à l’accueil <Icon name="arrow-right" size={18} class="btn-arrow" /></a>
+          <a href={href('/contact')} class="btn btn-secondary">Nous signaler le problème</a>
         </div>
       </div>
       <div class="lg:col-span-4 lg:col-start-9 lg:pt-3">

@@ -1,143 +1,107 @@
 ---
-/**
- * Modèle de page produit : problème -> solution -> fonctionnement -> bénéfices -> contact.
- * Les contenus viennent de src/content/products/<slug>.md (voir README pour ajouter un produit).
- */
-import { getCollection, type CollectionEntry } from 'astro:content';
+/** Modèle de page produit : problème -> solution -> fonctionnement -> bénéfices -> contact. */
 import Base from '@/layouts/Base.astro';
-import Button from '@/components/Button.astro';
 import Cartouche from '@/components/Cartouche.astro';
 import CtaBand from '@/components/CtaBand.astro';
-import SectionHead from '@/components/SectionHead.astro';
-import StatusTag from '@/components/StatusTag.astro';
 import Icon from '@/components/Icon.astro';
+import { products, type Product } from '@/data/products';
 import { href } from '@/lib/url';
 
-export async function getStaticPaths() {
-  const products = (await getCollection('products')).sort((a, b) => a.data.order - b.data.order);
+export function getStaticPaths() {
   return products.map((product, i) => ({
-    params: { slug: product.id },
-    props: { product, next: products[(i + 1) % products.length], index: i },
+    params: { slug: product.slug },
+    props: { product, next: products[(i + 1) % products.length] },
   }));
 }
 
 interface Props {
-  product: CollectionEntry<'products'>;
-  next: CollectionEntry<'products'>;
-  index: number;
+  product: Product;
+  next: Product;
 }
-const { product, next, index } = Astro.props;
-const p = product.data;
-const ref = `${p.name.slice(0, 3).toUpperCase()}-${String(p.order).padStart(2, '0')}`;
-const contactHref = `${href('/contact')}?sujet=${product.id}`;
+const { product: p, next } = Astro.props;
+const contactHref = `${href('/contact')}?sujet=${p.slug}`;
 const statusNote = {
-  dev: `${p.name} est en cours de développement. Cette page décrit le produit que nous construisons.`,
-  soon: `${p.name} est en préparation. Cette page présente le produit que nous allons construire.`,
-  live: null,
+  'En développement': `${p.name} est en cours de développement. Cette page décrit le produit que nous construisons.`,
+  'À venir': `${p.name} est en préparation. Cette page présente le produit que nous allons construire.`,
+  Disponible: null,
 }[p.status];
-const sheet = `${String(3 + index).padStart(2, '0')} / 08`;
 ---
 
-<Base title={p.name} description={p.seoDescription} sheet={sheet}>
+<Base title={p.name} description={p.seoDescription}>
   <!-- Ouverture -->
   <section class="container-page pt-12 pb-16 md:pt-20 md:pb-24" aria-labelledby="titre">
-    <nav aria-label="Fil d’Ariane" class="label">
-      <ol class="flex flex-wrap items-center gap-2" role="list">
-        <li><a href={href('/produits')} class="hover:text-brand">Produits</a></li>
-        <li aria-hidden="true">/</li>
-        <li aria-current="page" class="text-ink">{p.name}</li>
-      </ol>
+    <nav aria-label="Fil d’Ariane" class="text-[0.875rem] text-muted">
+      <a href={href('/produits')} class="hover:text-brand">Produits</a>
+      <span aria-hidden="true" class="mx-2">/</span>
+      <span aria-current="page" class="text-ink">{p.name}</span>
     </nav>
 
     <div class="mt-10 grid gap-12 lg:grid-cols-12 lg:gap-8">
       <div class="lg:col-span-7">
-        <StatusTag status={p.status} />
+        <span class="status" data-status={p.status}>{p.status}</span>
         <h1 id="titre" class="mt-6 text-display font-bold">{p.name}</h1>
-        <p class="mt-6 max-w-[24ch] font-display text-h3 font-semibold text-ink md:text-[clamp(1.5rem,1.2rem+1vw,2rem)] md:leading-tight">
+        <p class="mt-6 max-w-[24ch] font-display text-[clamp(1.25rem,1.1rem+0.8vw,2rem)] leading-tight font-semibold">
           {p.tagline}
         </p>
         <p class="mt-6 max-w-[58ch] text-lede text-muted">{p.summary}</p>
         <div class="mt-10 flex flex-wrap gap-3">
-          <Button href={contactHref}>{p.cta.button}</Button>
-          <Button href="#fonctionnement" variant="secondary" arrow={false}>Comment ça marche</Button>
+          <a href={contactHref} class="btn btn-primary">{p.cta.button} <Icon name="arrow-right" size={18} class="btn-arrow" /></a>
+          <a href="#fonctionnement" class="btn btn-secondary">Comment ça marche</a>
         </div>
       </div>
       <div class="lg:col-span-5 lg:pt-2">
-        <Cartouche title="Fiche technique" reference={ref} rows={p.spec}>
-          {
-            statusNote && (
-              <p class="border-t border-line-strong px-5 py-4 text-[0.875rem] leading-relaxed text-muted">
-                {statusNote}
-              </p>
-            )
-          }
+        <Cartouche title="Fiche technique" reference={`${p.name.slice(0, 3).toUpperCase()}-0${products.indexOf(p) + 1}`} rows={p.spec}>
+          {statusNote && <p class="border-t border-line-strong px-5 py-4 text-[0.875rem] leading-relaxed text-muted">{statusNote}</p>}
         </Cartouche>
       </div>
     </div>
   </section>
 
-  <!-- § 01 — Le problème -->
+  <!-- Problème et solution -->
   <section class="border-t border-line" aria-labelledby="probleme">
-    <div class="container-page section-y">
-      <SectionHead number="01" label="Le problème" id="probleme">{p.problem.title}</SectionHead>
-      <div class="mt-10 grid gap-6 lg:grid-cols-12 lg:gap-8">
-        <div class="space-y-5 lg:col-span-7 lg:col-start-4">
-          {p.problem.paragraphs.map((t, i) => <p class:list={[i === 0 ? 'text-lede' : 'text-muted']}>{t}</p>)}
-        </div>
+    <div class="container-page section-y grid gap-8 lg:grid-cols-12">
+      <h2 id="probleme" class="text-h2 font-[650] lg:col-span-5">{p.problem.title}</h2>
+      <div class="space-y-5 lg:col-span-6 lg:col-start-7 lg:pt-2">
+        {p.problem.paragraphs.map((t, i) => <p class:list={[i === 0 ? 'text-lede' : 'text-muted']}>{t}</p>)}
       </div>
     </div>
   </section>
 
-  <!-- § 02 — La solution : bande surface, énoncé fort -->
   <section class="border-y border-line bg-surface" aria-labelledby="solution">
-    <div class="container-page section-y">
-      <SectionHead number="02" label="La solution" id="solution">{p.solution.title}</SectionHead>
-      <div class="mt-10 grid gap-6 lg:grid-cols-12 lg:gap-8">
-        <div
-          class:list={[
-            'grid gap-6 lg:col-span-9 lg:col-start-4 lg:gap-10',
-            p.solution.paragraphs.length > 1 ? 'md:grid-cols-2' : 'max-w-[60ch] text-lede',
-          ]}
-        >
-          {p.solution.paragraphs.map((t) => <p>{t}</p>)}
-        </div>
+    <div class="container-page section-y grid gap-8 lg:grid-cols-12">
+      <h2 id="solution" class="text-h2 font-[650] lg:col-span-5">{p.solution.title}</h2>
+      <div class="space-y-5 lg:col-span-6 lg:col-start-7 lg:pt-2">
+        {p.solution.paragraphs.map((t, i) => <p class:list={[i === 0 ? 'text-lede' : 'text-muted']}>{t}</p>)}
       </div>
     </div>
   </section>
 
-  <!-- § 03 — Fonctionnement : étapes en lignes -->
+  <!-- Fonctionnement -->
   <section class="container-page section-y" aria-labelledby="fonctionnement">
-    <SectionHead number="03" label="Fonctionnement" id="fonctionnement">
-      {p.steps.length} étapes, de la demande au résultat.
-    </SectionHead>
-    <ol class="mt-12 md:mt-16" role="list">
+    <h2 id="fonctionnement" class="text-h2 font-[650]">Comment ça marche.</h2>
+    <ol class="mt-10 md:mt-14" role="list">
       {
         p.steps.map((s, i) => (
           <li class="grid gap-x-8 gap-y-2 border-t border-line py-7 md:grid-cols-12 md:py-9">
-            <span
-              class="font-display text-[2.5rem] leading-none font-bold tracking-[-0.03em] text-accent md:col-span-3"
-              aria-hidden="true"
-            >
+            <span class="font-display text-[2.5rem] leading-none font-bold tracking-[-0.03em] text-accent md:col-span-2" aria-hidden="true">
               {String(i + 1).padStart(2, '0')}
             </span>
-            <div class="md:col-span-9 md:grid md:grid-cols-9 md:gap-8">
-              <h3 class="text-h3 font-semibold md:col-span-3">
-                <span class="sr-only">Étape {i + 1} : </span>
-                {s.title}
-              </h3>
-              <p class="mt-2 max-w-[52ch] text-muted md:col-span-6 md:mt-0">{s.text}</p>
-            </div>
+            <h3 class="text-h3 font-semibold md:col-span-4">
+              <span class="sr-only">Étape {i + 1} : </span>
+              {s.title}
+            </h3>
+            <p class="max-w-[52ch] text-muted md:col-span-6">{s.text}</p>
           </li>
         ))
       }
     </ol>
   </section>
 
-  <!-- § 04 — Bénéfices : tableau 2 × n -->
+  <!-- Bénéfices -->
   <section class="border-t border-line" aria-labelledby="benefices">
     <div class="container-page section-y">
-      <SectionHead number="04" label="Bénéfices" id="benefices">Ce que {p.name} change.</SectionHead>
-      <ul class="mt-12 grid border-t border-l border-line-strong sm:grid-cols-2 md:mt-16" role="list">
+      <h2 id="benefices" class="text-h2 font-[650]">Ce que {p.name} change.</h2>
+      <ul class="mt-10 grid border-t border-l border-line-strong sm:grid-cols-2 md:mt-14" role="list">
         {
           p.benefits.map((b) => (
             <li class="border-r border-b border-line-strong p-6 sm:last:odd:col-span-2 md:p-10">
@@ -151,31 +115,19 @@ const sheet = `${String(3 + index).padStart(2, '0')} / 08`;
     </div>
   </section>
 
-  <CtaBand number="05" title={p.cta.title} text={p.cta.text} button={p.cta.button} href={contactHref} />
+  <CtaBand title={p.cta.title} text={p.cta.text} button={p.cta.button} href={contactHref} />
 
-  <!-- Produit suivant -->
   {
-    next.id !== product.id && (
+    next.slug !== p.slug && (
       <nav aria-label="Produit suivant" class="container-page pt-16 md:pt-24">
-        <a href={href(`/produits/${next.id}`)} class="next-link group flex items-end justify-between gap-6 border-b border-line-strong pb-8">
+        <a href={href(`/produits/${next.slug}`)} class="group flex items-end justify-between gap-6 border-b border-line-strong pb-8">
           <span>
-            <span class="label block">Produit suivant</span>
-            <span class="mt-3 block font-display text-h2 font-bold transition-colors group-hover:text-brand">
-              {next.data.name}
-            </span>
+            <span class="block text-[0.875rem] text-muted">Produit suivant</span>
+            <span class="mt-2 block font-display text-h2 font-bold transition-colors group-hover:text-brand">{next.name}</span>
           </span>
-          <Icon name="arrow-right" size={32} class="next-arrow mb-2 shrink-0" />
+          <Icon name="arrow-right" size={32} class="mb-2 shrink-0 transition-transform group-hover:translate-x-1.5" />
         </a>
       </nav>
     )
   }
 </Base>
-
-<style>
-  .next-link :global(.next-arrow) {
-    transition: translate 200ms var(--ease-out);
-  }
-  .next-link:hover :global(.next-arrow) {
-    translate: 6px 0;
-  }
-</style>

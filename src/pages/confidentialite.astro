@@ -1,6 +1,5 @@
 ---
 import LegalPage from '@/layouts/LegalPage.astro';
-import Todo from '@/components/Todo.astro';
 import { site } from '@/config/site';
 import { href } from '@/lib/url';
 
@@ -23,7 +22,6 @@ const toc = [
 <LegalPage
   title="Politique de confidentialité"
   description="Comment Asans6 traite les données personnelles collectées sur son site : données, finalités, durées de conservation, destinataires et droits."
-  sheet="08 / 08"
   updated="octobre 2026"
   toc={toc}
 >
@@ -31,10 +29,10 @@ const toc = [
     <h2 id="responsable">1. Responsable du traitement</h2>
     <p>
       Le responsable du traitement des données collectées sur ce site est la société <strong>{l.companyName}</strong>
-      (SAS), dont le siège social est situé {l.headOffice ?? <Todo>adresse du siège</Todo>}.
+      (SAS), dont le siège social est situé {l.headOffice ?? <span class="todo">[À FOURNIR : adresse du siège]</span>}.
     </p>
     <p>
-      Contact pour toute question relative à vos données : {email ? <a href={`mailto:${email}`}>{email}</a> : <Todo>e-mail</Todo>}.
+      Contact pour toute question relative à vos données : {email ? <a href={`mailto:${email}`}>{email}</a> : <span class="todo">[À FOURNIR : e-mail]</span>}.
     </p>
   </section>
 
@@ -94,7 +92,7 @@ const toc = [
         <strong>{l.host.name}</strong>, hébergement du site.
       </li>
       <li>
-        <strong>Service d’envoi du formulaire</strong> : <Todo>nom et adresse du service retenu (ex. Formspree)</Todo>.
+        <strong>Service d’envoi du formulaire</strong> : <span class="todo">[À FOURNIR : nom et adresse du service retenu (ex. Formspree)]</span>.
       </li>
     </ul>
   </section>
@@ -104,9 +102,7 @@ const toc = [
     <p>
       Certains de ces prestataires sont établis aux États-Unis. Ces transferts sont encadrés par des garanties appropriées
       au sens du RGPD, comme la certification au cadre de protection des données UE–États-Unis (Data Privacy Framework) ou
-      des clauses contractuelles types adoptées par la Commission européenne. <Todo>
-        vérifier et préciser la garantie applicable à chaque prestataire
-      </Todo>
+      des clauses contractuelles types adoptées par la Commission européenne. <span class="todo">[À FOURNIR : vérifier et préciser la garantie applicable à chaque prestataire]</span>
     </p>
   </section>
 
@@ -133,7 +129,7 @@ const toc = [
       <li>droit de définir des directives relatives au sort de vos données après votre décès.</li>
     </ul>
     <p>
-      Pour exercer ces droits, écrivez-nous à {email ? <a href={`mailto:${email}`}>{email}</a> : <Todo>e-mail</Todo>} ou via
+      Pour exercer ces droits, écrivez-nous à {email ? <a href={`mailto:${email}`}>{email}</a> : <span class="todo">[À FOURNIR : e-mail]</span>} ou via
       le <a href={href('/contact')}>formulaire de contact</a>. Nous répondons dans un délai d’un mois.
     </p>
     <p>

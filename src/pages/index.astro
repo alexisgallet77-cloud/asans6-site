@@ -1,63 +1,35 @@
 ---
-import { getCollection } from 'astro:content';
 import Base from '@/layouts/Base.astro';
-import Button from '@/components/Button.astro';
 import Cartouche from '@/components/Cartouche.astro';
-import SectionHead from '@/components/SectionHead.astro';
-import StatusTag from '@/components/StatusTag.astro';
-import Icon from '@/components/Icon.astro';
 import CtaBand from '@/components/CtaBand.astro';
+import Icon from '@/components/Icon.astro';
+import { products } from '@/data/products';
 import { href } from '@/lib/url';
 import { site } from '@/config/site';
 
-const products = (await getCollection('products')).sort((a, b) => a.data.order - b.data.order);
-
 const skills = [
-  {
-    title: 'Traitement automatique du langage',
-    text: 'Analyser un texte, en extraire les affirmations, comparer leur sens avec celui des sources.',
-  },
-  {
-    title: 'Recherche d’information',
-    text: 'Interroger des sources variées, classer les résultats par pertinence, garder la trace de chaque document.',
-  },
-  {
-    title: 'Applications mobiles',
-    text: 'Des interfaces simples, pensées pour être utilisées en situation réelle, avec peu de temps et peu d’attention.',
-  },
-  {
-    title: 'Architecture back-end et API',
-    text: 'Des services fiables, observables et documentés, conçus pour évoluer sans tout réécrire.',
-  },
-  {
-    title: 'Sécurité et données personnelles',
-    text: 'Protéger les données dès la conception et appliquer les principes du RGPD à chaque produit.',
-  },
-  {
-    title: 'Qualité logicielle',
-    text: 'Tests automatisés, revue de code, intégration et déploiement continus.',
-  },
+  ['Traitement automatique du langage', 'Analyser un texte, en extraire les affirmations, comparer leur sens avec celui des sources.'],
+  ['Recherche d’information', 'Interroger des sources variées, classer les résultats par pertinence, garder la trace de chaque document.'],
+  ['Applications mobiles', 'Des interfaces simples, pensées pour être utilisées en situation réelle, avec peu de temps et peu d’attention.'],
+  ['Architecture back-end et API', 'Des services fiables, observables et documentés, conçus pour évoluer sans tout réécrire.'],
+  ['Sécurité et données personnelles', 'Protéger les données dès la conception et appliquer les principes du RGPD à chaque produit.'],
+  ['Qualité logicielle', 'Tests automatisés, revue de code, intégration et déploiement continus.'],
 ];
 
 const method = [
-  { title: 'Partir du métier', text: 'Observer le travail réel avant d’écrire la première ligne de code.' },
-  { title: 'Prototyper tôt', text: 'Confronter une première version à de vrais utilisateurs, le plus vite possible.' },
-  { title: 'Mesurer', text: 'Juger un produit sur ce qu’il change pour ses utilisateurs, pas sur sa liste de fonctions.' },
-  { title: 'Maintenir', text: 'Corriger, sécuriser et améliorer dans la durée : c’est là que se joue la qualité.' },
+  ['Partir du métier', 'Observer le travail réel avant d’écrire la première ligne de code.'],
+  ['Prototyper tôt', 'Confronter une première version à de vrais utilisateurs, le plus vite possible.'],
+  ['Mesurer', 'Juger un produit sur ce qu’il change pour ses utilisateurs, pas sur sa liste de fonctions.'],
+  ['Maintenir', 'Corriger, sécuriser et améliorer dans la durée : c’est là que se joue la qualité.'],
 ];
 ---
 
-<Base description={site.description} sheet="01 / 08">
+<Base description={site.description}>
   <!-- Ouverture -->
   <section class="container-page pt-12 pb-16 md:pt-20 md:pb-24" aria-labelledby="titre">
     <div class="grid gap-12 lg:grid-cols-12 lg:gap-8">
       <div class="lg:col-span-8">
-        <p class="label flex flex-wrap items-center gap-x-3 gap-y-1">
-          <span class="text-ink">{site.name}</span>
-          <span aria-hidden="true" class="h-px w-6 bg-line-strong"></span>
-          <span>{site.tagline}</span>
-        </p>
-        <h1 id="titre" class="mt-6 max-w-[17ch] text-display font-bold">
+        <h1 id="titre" class="max-w-[17ch] text-display font-bold">
           Des logiciels conçus par des ingénieurs, pour des problèmes précis.
         </h1>
         <p class="mt-8 max-w-[56ch] text-lede text-muted">
@@ -68,11 +40,10 @@ const method = [
           aux chauffeurs de taxi.
         </p>
         <div class="mt-10 flex flex-wrap gap-3">
-          <Button href={href('/contact')}>Nous écrire</Button>
-          <Button href={href('/produits')} variant="secondary">Voir les produits</Button>
+          <a href={href('/contact')} class="btn btn-primary">Nous écrire <Icon name="arrow-right" size={18} class="btn-arrow" /></a>
+          <a href={href('/produits')} class="btn btn-secondary">Voir les produits <Icon name="arrow-right" size={18} class="btn-arrow" /></a>
         </div>
       </div>
-
       <div class="lg:col-span-4 lg:pt-3">
         <Cartouche
           title="Fiche société"
@@ -81,25 +52,21 @@ const method = [
             { label: 'Raison sociale', value: `${site.name} ${site.legalForm}` },
             { label: 'Activité', value: 'Conception et édition de logiciels' },
             { label: 'Fondateurs', value: 'Trois ingénieurs' },
-            { label: 'Produits', value: products.map((p) => p.data.name).join(' · ') },
+            { label: 'Produits', value: products.map((p) => p.name).join(' · ') },
           ]}
         />
       </div>
     </div>
-
-    <div class="ruler mt-16 md:mt-24" aria-hidden="true"></div>
   </section>
 
-  <!-- § 01 — Ce que nous faisons -->
-  <section class="container-page section-y pt-0" aria-labelledby="s1">
-    <SectionHead number="01" label="Ce que nous faisons" id="s1">
-      Un éditeur de logiciels, de l’idée à la maintenance.
-    </SectionHead>
-    <div class="mt-10 grid gap-8 lg:grid-cols-12 lg:gap-8">
-      <div class="grid gap-6 text-body md:grid-cols-2 lg:col-span-9 lg:col-start-4 lg:gap-10">
-        <p>
+  <!-- Ce que nous faisons -->
+  <section class="border-t border-line" aria-labelledby="metier">
+    <div class="container-page section-y grid gap-8 lg:grid-cols-12">
+      <h2 id="metier" class="text-h2 font-[650] lg:col-span-5">Un éditeur de logiciels, de l’idée à la maintenance.</h2>
+      <div class="space-y-5 lg:col-span-6 lg:col-start-7 lg:pt-2">
+        <p class="text-lede">
           Asans6 porte ses propres produits logiciels. Nous les concevons, les développons, les mettons en production et
-          les maintenons. Chaque étape est tenue par l’équipe qui a écrit le code.
+          les maintenons.
         </p>
         <p class="text-muted">
           Chaque produit part d’un problème concret, observé chez les personnes qui le vivent : une rédaction qui manque de
@@ -109,29 +76,27 @@ const method = [
     </div>
   </section>
 
-  <!-- § 02 — Produits : index en lignes -->
-  <section class="border-y border-line bg-surface" aria-labelledby="s2">
+  <!-- Produits : index en lignes -->
+  <section class="border-y border-line bg-surface" aria-labelledby="produits">
     <div class="container-page section-y">
-      <SectionHead number="02" label="Produits" id="s2">Nos produits.</SectionHead>
-
-      <ol class="mt-12 border-t border-line-strong md:mt-16" role="list">
+      <h2 id="produits" class="text-h2 font-[650]">Nos produits.</h2>
+      <ul class="mt-10 border-t border-line-strong md:mt-14" role="list">
         {
-          products.map((p, i) => (
+          products.map((p) => (
             <li class="border-b border-line-strong">
               <a
-                href={href(`/produits/${p.id}`)}
+                href={href(`/produits/${p.slug}`)}
                 class="product-row group grid gap-x-8 gap-y-3 py-8 md:grid-cols-12 md:items-baseline md:py-10"
               >
-                <span class="label text-brand md:col-span-1">{String(i + 1).padStart(2, '0')}</span>
                 <span class="md:col-span-4">
                   <span class="block font-display text-[clamp(2rem,1.5rem+2.2vw,3.25rem)] leading-none font-bold tracking-[-0.03em] text-ink transition-colors group-hover:text-brand">
-                    {p.data.name}
+                    {p.name}
                   </span>
-                  <StatusTag status={p.data.status} class="mt-4" />
+                  <span class="status mt-4" data-status={p.status}>{p.status}</span>
                 </span>
-                <span class="max-w-[52ch] text-muted md:col-span-6">
-                  <span class="mb-2 block font-medium text-ink">{p.data.tagline}</span>
-                  {p.data.summary}
+                <span class="max-w-[52ch] text-muted md:col-span-7">
+                  <span class="mb-2 block font-medium text-ink">{p.tagline}</span>
+                  {p.summary}
                 </span>
                 <span class="hidden justify-end text-ink md:col-span-1 md:flex">
                   <Icon name="arrow-right" size={24} class="row-arrow" />
@@ -140,54 +105,40 @@ const method = [
             </li>
           ))
         }
-      </ol>
-      <p class="mt-6 text-[0.9375rem] text-muted md:pl-[calc((100%+2rem)/12)]">
-        D’autres produits suivront. Chacun aura sa page ici.
-      </p>
+      </ul>
+      <p class="mt-6 text-[0.9375rem] text-muted">D’autres produits suivront.</p>
     </div>
   </section>
 
-  <!-- § 03 — Compétences : tableau en deux colonnes -->
-  <section class="container-page section-y" aria-labelledby="s3">
-    <SectionHead number="03" label="Compétences" id="s3">Les compétences derrière nos produits.</SectionHead>
-    <dl class="mt-12 grid gap-x-10 md:mt-16 md:grid-cols-2">
+  <!-- Compétences -->
+  <section class="container-page section-y" aria-labelledby="competences">
+    <h2 id="competences" class="max-w-[20ch] text-h2 font-[650]">Les compétences derrière nos produits.</h2>
+    <dl class="mt-10 grid gap-x-10 md:mt-14 md:grid-cols-2">
       {
-        skills.map((s, i) => (
+        skills.map(([title, text]) => (
           <div class="border-t border-line py-6">
-            <dt class="grid grid-cols-[3.5rem_1fr] items-baseline gap-x-4">
-              <span class="label" aria-hidden="true">
-                03.{i + 1}
-              </span>
-              <span class="text-h3 font-display font-semibold">{s.title}</span>
-            </dt>
-            <dd class="mt-2 max-w-[46ch] pl-[4.5rem] text-muted">{s.text}</dd>
+            <dt class="text-h3 font-display font-semibold">{title}</dt>
+            <dd class="mt-2 max-w-[46ch] text-muted">{text}</dd>
           </div>
         ))
       }
     </dl>
   </section>
 
-  <!-- § 04 — Méthode : énoncé + étapes -->
-  <section class="border-t border-line" aria-labelledby="s4">
+  <!-- Méthode -->
+  <section class="border-t border-line" aria-labelledby="methode">
     <div class="container-page section-y">
-      <div class="grid gap-8 lg:grid-cols-12">
-        <p class="label flex items-center gap-3 self-start lg:col-span-3 lg:pt-3">
-          <span class="text-brand">§ 04</span>
-          <span aria-hidden="true" class="h-px w-6 bg-line-strong"></span>
-          <span>Méthode</span>
-        </p>
-        <h2 id="s4" class="text-h2 font-[650] lg:col-span-9">
-          Un logiciel n’est pas fini quand il est livré.
-          <span class="text-muted">Il l’est quand il est utile, et il le reste tant qu’il est maintenu.</span>
-        </h2>
-      </div>
-      <ol class="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6" role="list">
+      <h2 id="methode" class="max-w-[26ch] text-h2 font-[650]">
+        Un logiciel n’est pas fini quand il est livré.
+        <span class="text-muted">Il l’est quand il est utile, et il le reste tant qu’il est maintenu.</span>
+      </h2>
+      <ol class="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6" role="list">
         {
-          method.map((m, i) => (
+          method.map(([title, text], i) => (
             <li class="border-t-2 border-ink pt-5">
               <p class="font-mono text-[0.875rem] text-muted">{String(i + 1).padStart(2, '0')}</p>
-              <h3 class="mt-3 text-h3 font-semibold">{m.title}</h3>
-              <p class="mt-2 text-muted">{m.text}</p>
+              <h3 class="mt-3 text-h3 font-semibold">{title}</h3>
+              <p class="mt-2 text-muted">{text}</p>
             </li>
           ))
         }
@@ -196,7 +147,6 @@ const method = [
   </section>
 
   <CtaBand
-    number="05"
     title="Une démonstration, un partenariat, une question de presse ?"
     text="Décrivez votre demande en quelques lignes. Nous vous répondrons personnellement."
     button="Nous écrire"
@@ -205,20 +155,6 @@ const method = [
 </Base>
 
 <style>
-  .ruler {
-    height: 0.75rem;
-    border-top: 1px solid var(--line-strong);
-    background-image:
-      linear-gradient(to right, var(--line-strong) 1px, transparent 1px),
-      linear-gradient(to right, var(--line-strong) 1px, transparent 1px);
-    background-size:
-      4rem 0.75rem,
-      0.5rem 0.375rem;
-    background-repeat: repeat-x;
-  }
-  .product-row {
-    transition: background-color 200ms var(--ease-out);
-  }
   .product-row :global(.row-arrow) {
     transition: translate 200ms var(--ease-out);
   }

@@ -1,99 +1,53 @@
 # Site vitrine Asans6
 
-Site statique construit avec [Astro](https://astro.build) 5, TypeScript et Tailwind CSS 4.
-Intention graphique et design system : [DESIGN.md](DESIGN.md). Choix faits et contenus à fournir : [DECISIONS.md](DECISIONS.md).
+Site statique : [Astro](https://astro.build) 5 + Tailwind CSS 4.
+Intention graphique : [DESIGN.md](DESIGN.md). Choix faits et contenus à fournir : [DECISIONS.md](DECISIONS.md).
 
 ## Lancer le site
 
-Prérequis : **Node.js 20.3 ou plus récent** (Node 22 recommandé, voir DECISIONS.md).
+Prérequis : Node.js 20.3 ou plus récent (22 recommandé).
 
 ```bash
 npm install
-npm run dev        # http://localhost:4321, rechargement à chaud
-npm run build      # vérification TypeScript (astro check) + génération dans dist/
-npm run preview    # sert dist/ sur http://localhost:4321
+npm run dev       # http://localhost:4321
+npm run build     # vérification TypeScript + génération dans dist/
+npm run preview   # sert dist/
 ```
 
-Contrôles (avec `npm run preview` lancé dans un autre terminal) :
+## Où modifier quoi
 
-```bash
-npm run audit      # liens, SEO, alt, typographie, clavier, menu mobile, formulaire
-npm run shots      # captures 375/768/1280/1920 px, clair et sombre, dans screenshots/
-```
+| Quoi | Fichier |
+| --- | --- |
+| Coordonnées, informations légales, URL du formulaire | `src/config/site.ts` (une valeur `null` s'affiche « [À FOURNIR] ») |
+| Produits | `src/data/products.ts` |
+| Textes des pages | `src/pages/*.astro` |
+| Fondateurs | tableau `founders` en haut de `src/pages/a-propos.astro` |
+| Couleurs, polices, espacements | `src/styles/global.css` |
 
-Les deux scripts utilisent Playwright ; la première fois : `npx playwright install chromium`.
-Sous Git Bash (Windows), préfixer par `MSYS_NO_PATHCONV=1` si vous passez des chemins en argument (`--pages /`).
-
-## Arborescence
-
-```
-src/
-  config/site.ts          ← coordonnées, mentions légales, URL du formulaire
-  content/products/*.md   ← un fichier par produit
-  pages/                  ← une page = un fichier (URL = chemin)
-  components/             ← en-tête, pied de page, cartouche, boutons…
-  layouts/                ← gabarits (Base, LegalPage)
-  styles/global.css       ← design tokens (couleurs clair/sombre, typo, espacements)
-  i18n/ui.ts              ← textes d'interface partagés
-  middleware.ts           ← typographie française automatique
-assets/logoAsans6.png     ← logo d'origine
-scripts/                  ← logo, captures, audit
-```
-
-## Modifier les textes
-
-- **Coordonnées, informations légales, formulaire** : `src/config/site.ts`. Une valeur `null` s'affiche « [À FOURNIR] » sur le site ; remplacez-la par une chaîne.
-- **Produits** : `src/content/products/<produit>.md` (en-tête YAML : accroche, problème, solution, étapes, bénéfices, appel à l'action).
-- **Pages** : directement dans `src/pages/*.astro` (le texte est dans le HTML).
-- **Fondateurs** : tableau `founders` en haut de `src/pages/a-propos.astro`.
-
-La typographie française (espaces insécables avant `: ; ! ?`, guillemets, apostrophe ’) est appliquée automatiquement au rendu : écrivez avec des espaces et apostrophes normales.
+Écrivez les textes normalement : les espaces insécables avant `: ; ! ?` et l'apostrophe ’ sont ajoutées automatiquement (`src/middleware.ts`).
 
 ## Ajouter un produit
 
-1. Copier `src/content/products/tixa.md` vers `src/content/products/mon-produit.md`.
-2. Remplir les champs (le schéma est dans `src/content.config.ts` ; `npm run build` signale tout champ manquant).
-   `status` : `dev` (en développement), `soon` (à venir) ou `live` (disponible). `order` fixe l'ordre d'affichage.
-3. C'est tout : la page `/produits/mon-produit/`, l'accueil, la liste des produits et le sitemap sont mis à jour.
-4. Ajouter l'option correspondante dans la liste `subjects` de `src/pages/contact.astro` si besoin, et mettre à jour le nombre de feuilles (« 0X / 08 ») dans les pages.
+Dans `src/data/products.ts`, copier un bloc produit et le remplir (`slug` = adresse de la page, `/produits/<slug>/`).
+La page produit, l'accueil, la liste des produits et le sitemap se mettent à jour seuls.
+Ajouter si besoin l'objet correspondant dans la liste `subjects` de `src/pages/contact.astro`.
 
 ## Formulaire de contact
 
-Le formulaire est statique. Pour recevoir les messages :
+1. Créer un formulaire sur [Formspree](https://formspree.io) (ou un service équivalent).
+2. Copier l'URL fournie dans `formEndpoint` de `src/config/site.ts`.
+3. Indiquer le nom du service dans la politique de confidentialité (section « Destinataires »).
 
-1. Créer un formulaire sur [Formspree](https://formspree.io) (ou un service équivalent acceptant un POST HTML).
-2. Copier l'URL fournie (`https://formspree.io/f/xxxxxxx`) dans `formEndpoint` de `src/config/site.ts`.
-3. Mettre à jour la section « Destinataires » de la politique de confidentialité avec le nom du service.
-
-Tant que `formEndpoint` vaut `null`, l'envoi affiche un message explicatif au lieu d'échouer.
-Le champ caché `_gotcha` sert de piège à robots (convention Formspree).
-
-## Logo
-
-Les variantes (clair/sombre, pictogramme, mot, favicons, image Open Graph) sont générées depuis `assets/logoAsans6.png` :
-
-```bash
-npm run logo
-```
-
-Si vous obtenez une version vectorielle (SVG) du logo, elle pourra remplacer ces images.
+Tant que `formEndpoint` vaut `null`, l'envoi affiche un message explicatif.
 
 ## Déployer sur GitHub Pages
 
-1. Créer un dépôt GitHub et y pousser le code (branche `main`).
+1. Pousser le code sur la branche `main` d'un dépôt GitHub.
 2. Dans le dépôt : **Settings → Pages → Source : GitHub Actions**.
-3. Chaque push sur `main` lance `.github/workflows/deploy.yml`, qui construit et publie le site.
-   L'URL et le chemin de base (`/nom-du-depot/`) sont détectés automatiquement.
-4. **Domaine personnalisé** (recommandé) : Settings → Pages → Custom domain, puis configurer le DNS chez le registrar
-   ([documentation GitHub](https://docs.github.com/pages/configuring-a-custom-domain-for-your-github-pages-site)).
-   Le site est alors servi à la racine et `robots.txt` est à sa place.
+3. Chaque push publie le site (`.github/workflows/deploy.yml`). L'adresse `compte.github.io/depot/` comme un domaine personnalisé sont gérés automatiquement.
 
-Ailleurs (Netlify, Vercel, OVH) : commande `npm run build`, dossier publié `dist/`, variables d'environnement
-`SITE_URL` (ex. `https://www.asans6.fr`) et `BASE_PATH` (`/`). Sur un hébergement FTP (OVH mutualisé), envoyer le contenu de `dist/`.
+Ailleurs (Netlify, Vercel, OVH) : commande `npm run build`, dossier `dist/`, variables `SITE_URL` (ex. `https://www.asans6.fr`) et `BASE_PATH` (`/`).
 
 ## Ajouter l'anglais plus tard
 
-1. `astro.config.mjs` : ajouter `'en'` dans `i18n.locales`.
-2. `src/i18n/ui.ts` : compléter un objet `en`.
-3. Créer les pages traduites sous `src/pages/en/` et un dossier `src/content/products/en/` (adapter le chargeur).
-4. Ajouter un sélecteur de langue dans `Header.astro` et les balises `hreflang` dans `Base.astro`.
+Ajouter `'en'` dans `i18n.locales` (`astro.config.mjs`), créer les pages traduites sous `src/pages/en/`, puis un sélecteur de langue dans `src/components/Header.astro`.

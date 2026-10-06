@@ -34,7 +34,7 @@ Contrastes vérifiés (WCAG 2.1) : encre 16,6:1 / 16,2:1 · secondaire 6,9:1 / 7
 
 - **Titres — Schibsted Grotesk** (variable, 500–800). Grotesque dessinée pour un groupe de presse : du caractère (terminaisons nettes, « a » et « g » affirmés) et un ancrage éditorial cohérent avec le fact-checking.
 - **Texte — IBM Plex Sans** (400, 500, 600). Conçue par et pour une entreprise d’ingénierie ; excellente lisibilité en paragraphe.
-- **Étiquettes techniques — IBM Plex Mono** (400, 500). Réservée aux repères (« § 01 », statuts, cartouches). Jamais pour du texte long.
+- **Étiquettes techniques — IBM Plex Mono** (400, 500). Réservée aux cartouches et aux statuts produit. Jamais pour du texte long.
 
 Échelle (fluide, `clamp()`) :
 
@@ -50,20 +50,14 @@ Contrastes vérifiés (WCAG 2.1) : encre 16,6:1 / 16,2:1 · secondaire 6,9:1 / 7
 ## 5. Grille et rythme
 
 - Conteneur max. 76 rem (1216 px), gouttières latérales 1 rem (mobile) → 2,5 rem (desktop).
-- Grille éditoriale 12 colonnes : **colonne d’étiquette** (3 col.) + **colonne de contenu** (8–9 col.). Sur mobile, l’étiquette passe au-dessus.
+- Grille 12 colonnes : sur grand écran, titre de section à gauche (5 col.) et texte à droite (6 col.) ; sur mobile, tout s’empile.
 - Espacements sur une base de 4 px ; rythme vertical des sections : 4 rem (mobile) → 8 rem (desktop).
 - Rayons : 2 px (champs, boutons) — pas de gros arrondis. Aucune ombre portée : la profondeur vient des filets.
 - Mises en page volontairement différentes d’une section à l’autre : index de produits en lignes, tableau de compétences, bandeau d’appel pleine largeur, prose en colonne.
 
 ## 6. Élément signature : le cartouche
 
-Sur un plan technique, le **cartouche** est le bloc encadré qui identifie le document (titre, auteur, révision, échelle). Il devient le fil conducteur du site :
-
-- **Accueil** : la fiche d’identité de la société, à côté du titre.
-- **Pages produit** : la fiche technique (statut, pour qui, plateforme, approche).
-- **Pied de page** : le cartouche du site (société, révision, feuille courante).
-
-Complété par la **numérotation des sections** en chasse fixe (« § 01 — Produits ») qui rythme la lecture comme un dossier.
+Sur un plan technique, le **cartouche** est le bloc encadré qui identifie le document. Il sert ici à présenter les informations factuelles : fiche société sur l’accueil, fiche technique de chaque produit, coordonnées sur la page Contact. Le reste du site reste volontairement sobre : titres forts, texte, filets fins.
 
 ## 7. Composants de base
 

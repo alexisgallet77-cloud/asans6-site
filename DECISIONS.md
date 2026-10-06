@@ -21,13 +21,13 @@ Tous apparaissent sur le site dans un cadre pointillé. Ils se renseignent dans 
 | Les trois fondateurs : nom, rôle, parcours, photo | À propos | `founders` dans `src/pages/a-propos.astro` |
 | Date et contexte de création, origine du nom Asans6 | À propos | `src/pages/a-propos.astro` |
 | Nom de domaine définitif | URL canoniques, sitemap, Open Graph | `SITE_URL` (déploiement) ou `astro.config.mjs` |
-| Logo vectoriel (SVG) | Partout | `assets/` |
+| Logo vectoriel (SVG) | Partout | remplacer les PNG de `src/assets/brand/` |
 
 Aucune preuve sociale n'a été inventée : pas de chiffres, de logos clients, de témoignages ni de récompenses.
 
 ## Contenus rédigés à valider
 
-- **Descriptions de Factually et de Tixa** (`src/content/products/`) : rédigées à partir du brief. Le fonctionnement en 4 étapes, la fiche technique et les bénéfices décrivent une intention de produit. Ils sont à confronter à ce que les produits feront réellement.
+- **Descriptions de Factually et de Tixa** (`src/data/products.ts`) : rédigées à partir du brief. Le fonctionnement en 4 étapes, la fiche technique et les bénéfices décrivent une intention de produit. Ils sont à confronter à ce que les produits feront réellement.
 - **Tixa = application mobile** : déduit du brief (« appli taxi »).
 - **Statuts** : Factually « En développement », Tixa « À venir ».
 - **Compétences** (accueil § 03) et **principes** (À propos § 03) : formulés comme des pratiques de l'équipe (tests, revue de code, RGPD…). Retirez ce qui ne correspond pas à votre réalité.
@@ -40,7 +40,7 @@ Aucune preuve sociale n'a été inventée : pas de chiffres, de logos clients, d
 | **Astro 5.18** et non Astro 7 | Astro 6 et 7 exigent Node ≥ 22.12 ; la machine a Node 20.11. Je n'ai pas modifié l'installation système. |
 | `vite@6` en dépendance directe | `@tailwindcss/vite` installait Vite 8, qui exige Node ≥ 20.12. On aligne sur la version de Vite utilisée par Astro 5. |
 | Override `@astrojs/language-server@2.16.7` | La version 2.17 utilise `require()` sur un module ESM, ce que Node 20.11 ne sait pas faire (`astro check` plantait). |
-| Override `sharp` → `$sharp` (0.35.5) | Corrige une faille de libvips signalée par `npm audit` dans la version embarquée par Astro. |
+| Override `sharp` 0.35.5 | Corrige une faille de libvips signalée par `npm audit` dans la version embarquée par Astro. |
 | Tailwind CSS 4 + tokens en variables CSS | Thèmes clair et sombre sans dupliquer les classes ; toutes les couleurs sont définies une seule fois dans `global.css`. |
 | Aucune librairie d'animation | Les rares transitions (survols, menu) sont en CSS, et neutralisées par `prefers-reduced-motion`. |
 | Polices `@fontsource` (sous-ensemble latin) | Auto-hébergées, `font-display: swap`, seules les graisses utilisées sont chargées. |
@@ -61,14 +61,12 @@ Aucune preuve sociale n'a été inventée : pas de chiffres, de logos clients, d
 | `@fontsource-variable/schibsted-grotesk`, `@fontsource/ibm-plex-sans`, `@fontsource/ibm-plex-mono` | Polices auto-hébergées |
 | `@astrojs/check`, `typescript` *(dev)* | Vérification de types (`astro check`) |
 | `vite` *(dev)* | Aligne la version de Vite (voir ci-dessus) |
-| `sharp` *(dev)* | Génération des variantes du logo |
-| `@playwright/test` *(dev)* | Captures et audit dans un vrai navigateur |
 
 ## Outils demandés mais indisponibles
 
 - **Plugin `frontend-design`** : `/plugin` n'est pas disponible dans cet environnement. Les principes du brief (section 4) ont été appliqués et documentés dans DESIGN.md.
 - **Context7 (MCP)** : non connecté. Les API ont été vérifiées sur les versions installées (types, `package.json`, `astro check`).
-- **Playwright (MCP)** : non connecté. Remplacé par `@playwright/test` via des scripts (`npm run shots`, `npm run audit`). J'ai examiné les captures une par une.
+- **Playwright (MCP)** : non connecté. J'ai utilisé Playwright de façon temporaire pour les captures (4 largeurs, clair et sombre) et un audit (liens, SEO, accessibilité, clavier) ; il a été retiré du projet ensuite.
 
 ## Points de vigilance
 

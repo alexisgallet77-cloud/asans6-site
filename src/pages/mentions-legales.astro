@@ -1,6 +1,5 @@
 ---
 import LegalPage from '@/layouts/LegalPage.astro';
-import Todo from '@/components/Todo.astro';
 import { site } from '@/config/site';
 import { href } from '@/lib/url';
 
@@ -21,7 +20,6 @@ const toc = [
 <LegalPage
   title="Mentions légales"
   description="Mentions légales du site d’Asans6 : éditeur, directeur de la publication, hébergeur, propriété intellectuelle et droit applicable."
-  sheet="07 / 08"
   updated="octobre 2026"
   toc={toc}
 >
@@ -31,13 +29,13 @@ const toc = [
       Le présent site est édité par la société <strong>{l.companyName}</strong>, société par actions simplifiée (SAS).
     </p>
     <ul>
-      <li>Capital social : {l.capital ?? <Todo />}</li>
-      <li>Siège social : {l.headOffice ?? <Todo>adresse complète</Todo>}</li>
-      <li>Immatriculation : {l.rcs ?? <Todo>RCS + ville</Todo>}</li>
-      <li>SIREN : {l.siren ?? <Todo />}</li>
-      <li>Numéro de TVA intracommunautaire : {l.vat ?? <Todo />}</li>
+      <li>Capital social : {l.capital ?? <span class="todo">[À FOURNIR]</span>}</li>
+      <li>Siège social : {l.headOffice ?? <span class="todo">[À FOURNIR : adresse complète]</span>}</li>
+      <li>Immatriculation : {l.rcs ?? <span class="todo">[À FOURNIR : RCS + ville]</span>}</li>
+      <li>SIREN : {l.siren ?? <span class="todo">[À FOURNIR]</span>}</li>
+      <li>Numéro de TVA intracommunautaire : {l.vat ?? <span class="todo">[À FOURNIR]</span>}</li>
       <li>
-        Contact : {site.contact.email ? <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a> : <Todo>e-mail</Todo>}
+        Contact : {site.contact.email ? <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a> : <span class="todo">[À FOURNIR : e-mail]</span>}
         {site.contact.phone && <> · {site.contact.phone}</>}
       </li>
     </ul>
@@ -46,7 +44,7 @@ const toc = [
   <section>
     <h2 id="publication">2. Directeur de la publication</h2>
     <p>
-      Le directeur de la publication est {l.publicationDirector ?? <Todo>prénom, nom, qualité (ex. président)</Todo>}.
+      Le directeur de la publication est {l.publicationDirector ?? <span class="todo">[À FOURNIR : prénom, nom, qualité (ex. président)]</span>}.
     </p>
   </section>
 
@@ -57,7 +55,7 @@ const toc = [
       <li><strong>{l.host.name}</strong></li>
       <li>{l.host.address}</li>
       <li>Site : <a href={l.host.website} rel="noopener">{l.host.website.replace('https://', '')}</a></li>
-      <li>Téléphone : <Todo>numéro de l’hébergeur, à vérifier selon l’offre retenue</Todo></li>
+      <li>Téléphone : <span class="todo">[À FOURNIR : numéro de l’hébergeur, à vérifier selon l’offre retenue]</span></li>
     </ul>
   </section>
 

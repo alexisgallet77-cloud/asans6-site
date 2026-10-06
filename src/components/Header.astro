@@ -2,25 +2,22 @@
 import Logo from './Logo.astro';
 import Icon from './Icon.astro';
 import { href, stripBase } from '@/lib/url';
-import { useTranslations } from '@/i18n/ui';
-
-const t = useTranslations();
 const current = stripBase(Astro.url.pathname);
 const links = [
-  { path: '/produits', label: t('nav.products') },
-  { path: '/a-propos', label: t('nav.about') },
-  { path: '/contact', label: t('nav.contact') },
+  { path: '/produits', label: 'Produits' },
+  { path: '/a-propos', label: 'À propos' },
+  { path: '/contact', label: 'Contact' },
 ];
 const isActive = (path: string) => current === `${path}/` || current.startsWith(`${path}/`);
 ---
 
 <header class="sticky top-0 z-40 border-b border-line bg-bg" data-header>
   <div class="container-page flex h-16 items-center justify-between gap-6 md:h-20">
-    <a href={href('/')} class="-m-1 rounded-sm p-1" aria-label={`Asans6 — ${t('nav.home')}`}>
+    <a href={href('/')} class="-m-1 rounded-sm p-1" aria-label="Asans6 — Accueil">
       <Logo size={32} />
     </a>
 
-    <nav aria-label={t('nav.label')} class="flex items-center gap-1 md:gap-2">
+    <nav aria-label="Navigation principale" class="flex items-center gap-1 md:gap-2">
       <ul class="hidden items-center gap-1 md:flex" role="list">
         {
           links.map((l) => (
@@ -41,9 +38,9 @@ const isActive = (path: string) => current === `${path}/` || current.startsWith(
         type="button"
         class="grid size-11 place-items-center rounded-sm text-ink transition-colors hover:bg-surface"
         data-theme-toggle
-        aria-label={t('theme.toDark')}
-        data-label-light={t('theme.toLight')}
-        data-label-dark={t('theme.toDark')}
+        aria-label="Passer au thème sombre"
+        data-label-light="Passer au thème clair"
+        data-label-dark="Passer au thème sombre"
       >
         <Icon name="moon" class="theme-icon-moon" />
         <Icon name="sun" class="theme-icon-sun" />
@@ -55,9 +52,9 @@ const isActive = (path: string) => current === `${path}/` || current.startsWith(
         aria-expanded="false"
         aria-controls="mobile-menu"
         data-menu-toggle
-        data-label-open={t('nav.menu')}
-        data-label-close={t('nav.close')}
-        aria-label={t('nav.menu')}
+        data-label-open="Menu"
+        data-label-close="Fermer le menu"
+        aria-label="Menu"
       >
         <Icon name="menu" class="menu-icon-open" size={22} />
         <Icon name="close" class="menu-icon-close" size={22} />
@@ -68,14 +65,13 @@ const isActive = (path: string) => current === `${path}/` || current.startsWith(
   <div id="mobile-menu" class="mobile-menu border-t border-line bg-bg md:hidden" hidden>
     <ul class="container-page py-4" role="list">
       {
-        links.map((l, i) => (
+        links.map((l) => (
           <li class="border-b border-line last:border-b-0">
             <a
               href={href(l.path)}
               aria-current={isActive(l.path) ? 'page' : undefined}
-              class="flex items-baseline gap-4 py-4 font-display text-2xl font-semibold text-ink aria-[current=page]:text-brand"
+              class="block py-4 font-display text-2xl font-semibold text-ink aria-[current=page]:text-brand"
             >
-              <span class="label w-6">{String(i + 1).padStart(2, '0')}</span>
               {l.label}
             </a>
           </li>

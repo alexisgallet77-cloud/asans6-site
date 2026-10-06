@@ -1,20 +1,12 @@
 ---
 /**
- * Élément signature du site : le cartouche, bloc d'identification d'un plan technique.
- * Utilisé pour la fiche société (accueil) et les fiches techniques produit.
+ * Le cartouche : encadré d'identification façon plan technique (fiche société, fiches produit, coordonnées).
+ * Une valeur `null` affiche « [À FOURNIR] ».
  */
-import Todo from './Todo.astro';
-
-interface Row {
-  label: string;
-  /** `null` : affiche un emplacement « [À FOURNIR] ». */
-  value: string | null;
-  href?: string;
-}
 interface Props {
   title: string;
   reference?: string;
-  rows: Row[];
+  rows: { label: string; value: string | null; href?: string }[];
   class?: string;
 }
 const { title, reference, rows, class: className } = Astro.props;
@@ -31,7 +23,7 @@ const { title, reference, rows, class: className } = Astro.props;
         <div class="grid grid-cols-[minmax(7.5rem,40%)_1fr] border-b border-line last:border-b-0">
           <dt class="label border-r border-line px-5 py-3.5 leading-snug">{r.label}</dt>
           <dd class="min-w-0 px-5 py-3 text-[0.9375rem] leading-snug break-words text-ink">
-            {r.value === null ? <Todo /> : r.href ? <a class="link" href={r.href}>{r.value}</a> : r.value}
+            {r.value === null ? <span class="todo">[À FOURNIR]</span> : r.href ? <a class="link" href={r.href}>{r.value}</a> : r.value}
           </dd>
         </div>
       ))

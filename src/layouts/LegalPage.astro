@@ -5,18 +5,16 @@ import Base from './Base.astro';
 interface Props {
   title: string;
   description: string;
-  sheet: string;
   updated: string;
   toc: { id: string; label: string }[];
 }
-const { title, description, sheet, updated, toc } = Astro.props;
+const { title, description, updated, toc } = Astro.props;
 ---
 
-<Base title={title} description={description} sheet={sheet}>
+<Base title={title} description={description}>
   <section class="container-page pt-12 pb-10 md:pt-20 md:pb-14" aria-labelledby="titre">
-    <p class="label">Informations légales</p>
-    <h1 id="titre" class="mt-6 text-display font-bold">{title}</h1>
-    <p class="label mt-6">Mise à jour : {updated}</p>
+    <h1 id="titre" class="text-display font-bold">{title}</h1>
+    <p class="mt-6 text-muted">Mise à jour : {updated}</p>
   </section>
 
   <div class="border-t border-line">
